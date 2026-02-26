@@ -1080,6 +1080,132 @@ html, body { height: 100%; font-family: 'Hind Siliguri', sans-serif; background:
   .item-children.collapsed { display:block !important; }
   #overlay { display:none !important; }
 }
+
+/* ── LAST UPDATE BADGE ── */
+.last-update-tag {
+  flex-shrink: 0;
+  font-size: 9px;
+  padding: 1px 5px; border-radius: 8px;
+  background: rgba(126,200,244,0.1);
+  border: 1px solid rgba(126,200,244,0.25);
+  color: #7ec8f4;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+body.light .last-update-tag {
+  background: rgba(30,100,180,0.08);
+  border-color: rgba(30,100,180,0.2);
+  color: #1a5a9a;
+}
+
+/* ── EVENTS PANEL ── */
+#events-panel {
+  flex-shrink: 0;
+  max-height: 140px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 0;
+  transition: max-height 0.3s ease;
+}
+#events-panel:empty { display: none; }
+#events-panel.collapsed-panel { max-height: 0; overflow: hidden; }
+
+#events-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 5px 12px;
+  background: var(--surface2);
+  border-top: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+}
+#events-header-title {
+  font-size: 11px; font-weight: 700;
+  color: var(--gold); letter-spacing: 0.5px;
+  display: flex; align-items: center; gap: 6px;
+}
+#events-toggle-icon { font-size: 10px; color: var(--text-muted); transition: transform 0.3s; }
+#events-toggle-icon.open { transform: rotate(180deg); }
+
+#events-list {
+  display: flex; flex-direction: column; gap: 0;
+}
+
+.event-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.event-row:last-child { border-bottom: none; }
+.event-row:hover { background: rgba(201,168,76,0.07); }
+
+.event-icon {
+  font-size: 16px; flex-shrink: 0;
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--surface2);
+}
+.event-row.ev-birth .event-icon  { background: rgba(94,232,216,0.12); }
+.event-row.ev-death .event-icon  { background: rgba(220,38,38,0.1); }
+.event-row.ev-anniv .event-icon  { background: rgba(245,146,196,0.12); }
+
+.event-info { flex: 1; min-width: 0; }
+.event-name { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.event-desc { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+
+.event-days {
+  flex-shrink: 0; text-align: right;
+}
+.event-days-num {
+  font-size: 13px; font-weight: 700; line-height: 1;
+}
+.event-days-label { font-size: 9px; color: var(--text-muted); }
+
+.event-row.ev-birth .event-days-num  { color: #5ee8d8; }
+.event-row.ev-death .event-days-num  { color: #ff8a8a; }
+.event-row.ev-anniv .event-days-num  { color: #f592c4; }
+.event-row.ev-today .event-days-num  { color: var(--gold) !important; }
+.event-row.ev-today { background: rgba(201,168,76,0.05); }
+
+/* Light events */
+body.light .event-row:hover          { background: rgba(154,110,26,0.05); }
+body.light .event-row.ev-birth .event-days-num { color: #0a7060; }
+body.light .event-row.ev-death .event-days-num { color: #a01818; }
+body.light .event-row.ev-anniv .event-days-num { color: #a0185a; }
+body.light #events-header            { background: var(--surface2); }
+body.light #events-header-title      { color: var(--gold); }
+
+/* ── DATE PICKER INPUTS in CP ── */
+.cp-date-row {
+  display: flex; gap: 6px; align-items: center;
+}
+.cp-date-row .cp-input { flex: 1; }
+.cp-date-picker-btn {
+  flex-shrink: 0; width: 32px; height: 34px;
+  border-radius: 7px; border: 1px solid var(--border);
+  background: var(--surface2); color: var(--text-muted);
+  font-size: 14px; cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.cp-date-picker-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+input[type="date"].cp-date-native {
+  position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
+}
+
+/* Profile last-update line */
+.profile-update-line {
+  font-size: 10px; color: var(--text-muted);
+  text-align: center; margin-top: -12px; margin-bottom: 14px;
+  letter-spacing: 0.2px;
+}
+body.light .profile-update-line { color: var(--text-muted); }
 </style>
 </head>
 <body>
@@ -1144,6 +1270,18 @@ html, body { height: 100%; font-family: 'Hind Siliguri', sans-serif; background:
 
   <div id="main">
     <ul id="treeRoot" class="tree-list"></ul>
+  </div>
+
+  <!-- UPCOMING EVENTS HEADER -->
+  <div id="events-header" onclick="toggleEventsPanel()">
+    <div id="events-header-title">
+      📅 আসন্ন দিনসমূহ <span id="events-badge" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700;"></span>
+    </div>
+    <span id="events-toggle-icon" class="open">▲</span>
+  </div>
+  <!-- UPCOMING EVENTS PANEL -->
+  <div id="events-panel">
+    <div id="events-list"></div>
   </div>
 
   <!-- FOOTER -->
@@ -1217,7 +1355,19 @@ html, body { height: 100%; font-family: 'Hind Siliguri', sans-serif; background:
       </div>
       <div class="cp-field">
         <label class="cp-label">জন্ম তারিখ</label>
-        <input class="cp-input" id="add-dob" placeholder="যেমন: ১৫ জানুয়ারি ১৯৮০" type="text">
+        <div class="cp-date-row">
+          <input class="cp-input" id="add-dob" placeholder="যেমন: ১৫ জানুয়ারি ১৯৮০" type="text">
+          <button class="cp-date-picker-btn" onclick="openDatePicker('add-dob','add-dob-native')" title="ক্যালেন্ডার">📅</button>
+          <input type="date" id="add-dob-native" class="cp-date-native" onchange="setDateFromPicker('add-dob','add-dob-native')">
+        </div>
+      </div>
+      <div class="cp-field">
+        <label class="cp-label">মৃত্যু তারিখ</label>
+        <div class="cp-date-row">
+          <input class="cp-input" id="add-dod" placeholder="প্রযোজ্য হলে লিখুন" type="text">
+          <button class="cp-date-picker-btn" onclick="openDatePicker('add-dod','add-dod-native')" title="ক্যালেন্ডার">📅</button>
+          <input type="date" id="add-dod-native" class="cp-date-native" onchange="setDateFromPicker('add-dod','add-dod-native')">
+        </div>
       </div>
       <div class="cp-field">
         <label class="cp-label">মাতার নাম</label>
@@ -1248,8 +1398,12 @@ html, body { height: 100%; font-family: 'Hind Siliguri', sans-serif; background:
           <input class="cp-input" id="add-wife" placeholder="যেমন: রহিমা বেগম" type="text">
         </div>
         <div class="cp-field">
-          <label class="cp-label">বিবাহের তারিখ</label>
-          <input class="cp-input" id="add-wdate" placeholder="যেমন: ১৫ জুন ২০০০" type="text">
+          <label class="cp-label">বিবাহের তারিখ (বার্ষিকী)</label>
+          <div class="cp-date-row">
+            <input class="cp-input" id="add-wdate" placeholder="যেমন: ১৫ জুন ২০০০" type="text">
+            <button class="cp-date-picker-btn" onclick="openDatePicker('add-wdate','add-wdate-native')" title="ক্যালেন্ডার">📅</button>
+            <input type="date" id="add-wdate-native" class="cp-date-native" onchange="setDateFromPicker('add-wdate','add-wdate-native')">
+          </div>
         </div>
       </div>
       <div class="cp-field">
@@ -1283,7 +1437,19 @@ html, body { height: 100%; font-family: 'Hind Siliguri', sans-serif; background:
         </div>
         <div class="cp-field">
           <label class="cp-label">জন্ম তারিখ</label>
-          <input class="cp-input" id="edit-dob" type="text" placeholder="যেমন: ১৫ জানুয়ারি ১৯৮০">
+          <div class="cp-date-row">
+            <input class="cp-input" id="edit-dob" type="text" placeholder="যেমন: ১৫ জানুয়ারি ১৯৮০">
+            <button class="cp-date-picker-btn" onclick="openDatePicker('edit-dob','edit-dob-native')" title="ক্যালেন্ডার">📅</button>
+            <input type="date" id="edit-dob-native" class="cp-date-native" onchange="setDateFromPicker('edit-dob','edit-dob-native')">
+          </div>
+        </div>
+        <div class="cp-field">
+          <label class="cp-label">মৃত্যু তারিখ</label>
+          <div class="cp-date-row">
+            <input class="cp-input" id="edit-dod" type="text" placeholder="প্রযোজ্য হলে লিখুন">
+            <button class="cp-date-picker-btn" onclick="openDatePicker('edit-dod','edit-dod-native')" title="ক্যালেন্ডার">📅</button>
+            <input type="date" id="edit-dod-native" class="cp-date-native" onchange="setDateFromPicker('edit-dod','edit-dod-native')">
+          </div>
         </div>
         <div class="cp-field">
           <label class="cp-label">মাতার নাম</label>
@@ -1314,8 +1480,12 @@ html, body { height: 100%; font-family: 'Hind Siliguri', sans-serif; background:
             <input class="cp-input" id="edit-wife" placeholder="যেমন: রহিমা বেগম" type="text">
           </div>
           <div class="cp-field">
-            <label class="cp-label">বিবাহের তারিখ</label>
-            <input class="cp-input" id="edit-wdate" placeholder="যেমন: ১৫ জুন ২০০০" type="text">
+            <label class="cp-label">বিবাহের তারিখ (বার্ষিকী)</label>
+            <div class="cp-date-row">
+              <input class="cp-input" id="edit-wdate" placeholder="যেমন: ১৫ জুন ২০০০" type="text">
+              <button class="cp-date-picker-btn" onclick="openDatePicker('edit-wdate','edit-wdate-native')" title="ক্যালেন্ডার">📅</button>
+              <input type="date" id="edit-wdate-native" class="cp-date-native" onchange="setDateFromPicker('edit-wdate','edit-wdate-native')">
+            </div>
           </div>
         </div>
         <div class="cp-field">
@@ -1512,6 +1682,16 @@ function makeItem(node, depth) {
   ib.onclick = e => { e.stopPropagation(); showSheet(node.id); };
   card.appendChild(ib);
 
+  // Last-update badge
+  const ex = EXTRA[node.id] || {};
+  if (ex.lastUpdated) {
+    const lu = document.createElement('span');
+    lu.className = 'last-update-tag';
+    lu.title = 'সর্বশেষ আপডেট: ' + ex.lastUpdated;
+    lu.textContent = '🕐 ' + shortStamp(ex.lastUpdated);
+    card.appendChild(lu);
+  }
+
   row.appendChild(card);
   li.appendChild(row);
 
@@ -1623,6 +1803,7 @@ function showSheet(id) {
 
       <div class="profile-name">${n.name}</div>
       <div class="profile-sub">${extra.address || 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ'}</div>
+      ${extra.lastUpdated ? `<div class="profile-update-line">🕐 সর্বশেষ আপডেট: ${extra.lastUpdated}</div>` : ''}
 
       ${n.notes ? `<div class="profile-note">📌 ${n.notes}</div>` : ''}
 
@@ -1638,6 +1819,11 @@ function showSheet(id) {
         <div class="profile-info-box">
           <div class="pib-label">জন্ম তারিখ</div>
           <div class="pib-value">🎂 ${extra.dob}</div>
+        </div>` : ''}
+        ${extra.dod ? `
+        <div class="profile-info-box">
+          <div class="pib-label">মৃত্যু তারিখ</div>
+          <div class="pib-value" style="color:#ff8a8a">✝️ ${extra.dod}</div>
         </div>` : ''}
         <div class="profile-info-box">
           <div class="pib-label">পেশা</div>
@@ -1848,6 +2034,7 @@ function addMember() {
   const pid     = document.getElementById('add-parent-id').value;
   const gender  = document.getElementById('add-gender').value.trim();
   const dob     = document.getElementById('add-dob').value.trim();
+  const dod     = document.getElementById('add-dod').value.trim();
   const mother  = document.getElementById('add-mother').value.trim();
   const job     = document.getElementById('add-job').value.trim();
   const addr    = document.getElementById('add-address').value.trim();
@@ -1864,32 +2051,28 @@ function addMember() {
   const newNode = { id, name, gen: parentDepth + 1, children: [] };
   if (notes) newNode.notes = notes;
 
-  // Add to tree data
   const parentInTree = findNodeInTree(DATA, pid);
   if (!parentInTree) { showToast('❌ পিতা খুঁজে পাওয়া যায়নি', 'error'); return; }
   parentInTree.children.push(newNode);
-
-  // Add to nodes index
   nodes[id] = { ...newNode, pid };
 
-  // Auto-fill mother from parent's wife if not provided
   const parentExtra = EXTRA[pid] || {};
   const autoMother = mother || (parentExtra.wife || '');
 
-  // Add to EXTRA
   EXTRA[id] = {
     job: job || 'অজানা',
     address: addr || 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ',
+    lastUpdated: nowStamp(),
     ...(gender  && { gender }),
     ...(dob     && { dob }),
+    ...(dod     && { dod }),
     ...(autoMother && { mother: autoMother }),
     ...(marital && { marital }),
     ...(marital === 'বিবাহিত' && wife  && { wife }),
     ...(marital === 'বিবাহিত' && wdate && { wdate }),
   };
 
-  // Reset form
-  ['add-name','add-dob','add-mother','add-job','add-notes','add-wife','add-wdate'].forEach(f => {
+  ['add-name','add-dob','add-dod','add-mother','add-job','add-notes','add-wife','add-wdate'].forEach(f => {
     const el = document.getElementById(f); if (el) el.value = '';
   });
   document.getElementById('add-gender').value = '';
@@ -1901,6 +2084,7 @@ function addMember() {
   filterParentList('');
 
   render();
+  renderEvents();
   showToast(`✅ ${name} যোগ করা হয়েছে`, 'success');
 }
 
@@ -1929,6 +2113,7 @@ function loadEditForm(id) {
   document.getElementById('edit-name').value = n.name;
   document.getElementById('edit-gender').value = ex.gender || '';
   document.getElementById('edit-dob').value = ex.dob || '';
+  document.getElementById('edit-dod').value = ex.dod || '';
   document.getElementById('edit-mother').value = ex.mother || '';
   document.getElementById('edit-job').value = ex.job || '';
   document.getElementById('edit-address').value = ex.address || 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ';
@@ -1945,6 +2130,7 @@ function saveEdit() {
   const newName = document.getElementById('edit-name').value.trim();
   const gender  = document.getElementById('edit-gender').value.trim();
   const dob     = document.getElementById('edit-dob').value.trim();
+  const dod     = document.getElementById('edit-dod').value.trim();
   const mother  = document.getElementById('edit-mother').value.trim();
   const job     = document.getElementById('edit-job').value.trim();
   const addr    = document.getElementById('edit-address').value.trim();
@@ -1954,35 +2140,27 @@ function saveEdit() {
   const wdate   = document.getElementById('edit-wdate').value.trim();
   if (!id || !newName) { showToast('❌ নাম খালি রাখা যাবে না', 'error'); return; }
 
-  // Update in nodes index
   nodes[id].name = newName;
   if (notes) nodes[id].notes = notes; else delete nodes[id].notes;
 
-  // Update in DATA tree
   const n = findNodeInTree(DATA, id);
   if (n) { n.name = newName; if (notes) n.notes = notes; else delete n.notes; }
 
-  // Update EXTRA
+  const prevExtra = EXTRA[id] || {};
   EXTRA[id] = {
     job: job || 'অজানা',
     address: addr || 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ',
+    lastUpdated: nowStamp(),
     ...(gender  && { gender }),
     ...(dob     && { dob }),
+    ...(dod     && { dod }),
     ...(mother  && { mother }),
     ...(marital && { marital }),
     ...(marital === 'বিবাহিত' && wife  && { wife }),
     ...(marital === 'বিবাহিত' && wdate && { wdate }),
   };
 
-  // If wife changed, update mother field for all children
   if (marital === 'বিবাহিত' && wife) {
-    (nodes[id].children || []).forEach(child => {
-      const childId = child.id || child;
-      if (EXTRA[childId] && !EXTRA[childId]._motherOverridden) {
-        EXTRA[childId].mother = wife;
-      }
-    });
-    // Also update children in nodes
     Object.values(nodes).forEach(nd => {
       if (nd.pid === id && EXTRA[nd.id] && !EXTRA[nd.id]._motherOverridden) {
         EXTRA[nd.id].mother = wife;
@@ -1991,6 +2169,7 @@ function saveEdit() {
   }
 
   render();
+  renderEvents();
   filterEditList(document.getElementById('edit-search').value);
   showToast(`✅ ${newName} আপডেট হয়েছে`, 'success');
 }
@@ -2068,251 +2247,70 @@ function downloadHTML() {
   const dataStr  = JSON.stringify(DATA,  null, 2);
   const extraStr = JSON.stringify(EXTRA, null, 2);
 
-  // Build a clean standalone viewer HTML from scratch — no regex, no outerHTML
-  const out = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>শেখ পরিবার</title>
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-` + document.querySelector('style').textContent + `
-</style>
-</head>
-<body>
-<div id="app">
-  <div id="header">
-    <h1>🌿 শেখ পরিবার</h1>
-    <div class="search-wrap">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-      </svg>
-      <input type="text" id="searchInput" placeholder="সদস্য খুঁজুন… (Enter = পরবর্তী)">
-      <span id="searchCount"></span>
-    </div>
-  </div>
-  <div id="toolbar">
-    <button class="btn" onclick="expandAll()">সব খুলুন</button>
-    <button class="btn" onclick="collapseAll()">সব বন্ধ করুন</button>
-    <button class="btn" onclick="expandToDepth(1)">২য়</button>
-    <button class="btn" onclick="expandToDepth(2)">৩য়</button>
-    <button class="btn" onclick="expandToDepth(3)">৪র্থ</button>
-    <button class="btn" onclick="expandToDepth(4)">৫ম</button>
-    <button class="btn" onclick="expandToDepth(5)">৬ষ্ঠ</button>
-    <button class="btn" onclick="window.print()">🖨 প্রিন্ট</button>
-  </div>
-  <div id="genbar">
-    <div class="genbar-item" style="--gc:#e8c96a"><div class="genbar-dot" style="background:#e8c96a"></div><span>১ম</span></div>
-    <div class="genbar-item" style="--gc:#f4a56a"><div class="genbar-dot" style="background:#f4a56a"></div><span>২য়</span></div>
-    <div class="genbar-item" style="--gc:#5ee8d8"><div class="genbar-dot" style="background:#5ee8d8"></div><span>৩য়</span></div>
-    <div class="genbar-item" style="--gc:#97b4f0"><div class="genbar-dot" style="background:#97b4f0"></div><span>৪র্থ</span></div>
-    <div class="genbar-item" style="--gc:#f592c4"><div class="genbar-dot" style="background:#f592c4"></div><span>৫ম</span></div>
-    <div class="genbar-item" style="--gc:#b8e85a"><div class="genbar-dot" style="background:#b8e85a"></div><span>৬ষ্ঠ</span></div>
-  </div>
-  <div id="main"><ul id="treeRoot" class="tree-list"></ul></div>
-</div>
-<div id="toast"></div>
-<div id="overlay" onclick="overlayClick(event)">
-  <div id="sheet"><div id="sheetContent"></div></div>
-</div>
-<script>
-// ═══════ DATA ═══════
-const DATA = ${dataStr};
+  // ══ পদ্ধতি: DOM-এ সাময়িক পরিবর্তন → outerHTML → পুনরুদ্ধার ══
+  // এতে ফুটার, events, theme, সব কিছু অটো থাকে।
 
-// ═══════ INDEX ═══════
-const nodes = {};
-const collapsed = new Set();
-let results = [], resultIdx = 0;
-function index(node, pid) {
-  nodes[node.id] = { ...node, pid };
-  (node.children||[]).forEach(c => index(c, node.id));
-}
-index(DATA, null);
+  // ── সংরক্ষণ ──
+  const treeRoot   = document.getElementById('treeRoot');
+  const eventsList = document.getElementById('events-list');
+  const sheetDiv   = document.getElementById('sheetContent');
+  const cpOverlay  = document.getElementById('cp-overlay');
+  const cpDrawer   = document.getElementById('cp-drawer');
+  const overlay    = document.getElementById('overlay');
+  const toast      = document.getElementById('toast');
+  const evBadge    = document.getElementById('events-badge');
 
-const GEN = ['মূল পূর্বপুরুষ','২য় প্রজন্ম','৩য় প্রজন্ম','৪র্থ প্রজন্ম','৫ম প্রজন্ম','৬ষ্ঠ প্রজন্ম','৭ম প্রজন্ম'];
+  const savedTree    = treeRoot.innerHTML;
+  const savedEvents  = eventsList ? eventsList.innerHTML : '';
+  const savedSheet   = sheetDiv.innerHTML;
+  const savedToast   = toast.className;
 
-// ═══════ BUILD ═══════
-function makeItem(node, depth) {
-  const hasKids = node.children && node.children.length > 0;
-  const isRoot = depth === 0;
-  const isCol = collapsed.has(node.id);
-  const li = document.createElement('li');
-  li.className = \`tree-item depth-\${depth}\`;
-  li.dataset.id = node.id;
-  const row = document.createElement('div');
-  row.className = 'item-row';
-  if (hasKids) {
-    const t = document.createElement('button');
-    t.className = 'toggle-btn' + (isCol ? '' : ' expanded');
-    t.textContent = '+';
-    t.onclick = e => { e.stopPropagation(); toggle(node.id); };
-    row.appendChild(t);
-  } else {
-    const sp = document.createElement('div');
-    sp.className = 'toggle-spacer';
-    row.appendChild(sp);
-  }
-  const card = document.createElement('div');
-  card.className = 'item-card' + (isRoot ? ' root-card' : '');
-  card.dataset.id = node.id;
-  const name = document.createElement('span');
-  name.className = 'item-name';
-  name.textContent = node.name;
-  card.appendChild(name);
-  if (node.notes) {
-    const nt = document.createElement('span');
-    nt.className = 'notes-tag';
-    nt.textContent = node.notes;
-    card.appendChild(nt);
-  } else {
-    const badge = document.createElement('span');
-    badge.className = 'item-badge';
-    badge.textContent = isRoot ? 'পূর্বপুরুষ' : (hasKids ? node.children.length + ' সন্তান' : (GEN[depth]||'প্রজন্ম '+(depth+1)));
-    card.appendChild(badge);
-  }
-  const ib = document.createElement('button');
-  ib.className = 'info-btn';
-  ib.textContent = 'ⓘ';
-  ib.title = 'বিস্তারিত';
-  ib.onclick = e => { e.stopPropagation(); showSheet(node.id); };
-  card.appendChild(ib);
-  row.appendChild(card);
-  li.appendChild(row);
-  if (hasKids) {
-    const ul = document.createElement('ul');
-    ul.className = 'item-children' + (isCol ? ' collapsed' : '');
-    ul.id = 'k_' + node.id;
-    const inner = document.createElement('div');
-    inner.className = 'children-inner';
-    node.children.forEach(c => inner.appendChild(makeItem(c, depth + 1)));
-    ul.appendChild(inner);
-    li.appendChild(ul);
-  }
-  return li;
-}
+  // ── সাময়িকভাবে clean state ──
+  treeRoot.innerHTML   = '';
+  if (eventsList) eventsList.innerHTML = '';
+  sheetDiv.innerHTML   = '';
+  toast.className      = '';
+  toast.textContent    = '';
+  if (evBadge) evBadge.textContent = '';
 
-function render() {
-  const root = document.getElementById('treeRoot');
-  root.innerHTML = '';
-  root.appendChild(makeItem(DATA, 0));
-  applySearch();
-}
+  // open class সরাও
+  cpOverlay.classList.remove('open');
+  cpDrawer.classList.remove('open');
+  overlay.classList.remove('open');
 
-// ═══════ TOGGLE ═══════
-function toggle(id) {
-  if (collapsed.has(id)) collapsed.delete(id); else collapsed.add(id);
-  const li = document.querySelector(\`.tree-item[data-id="\${id}"]\`);
-  if (!li) return;
-  const ul = document.getElementById('k_' + id);
-  const t  = li.querySelector(':scope > .item-row > .toggle-btn');
-  const isNowCollapsed = collapsed.has(id);
-  if (ul) ul.classList.toggle('collapsed', isNowCollapsed);
-  if (t)  t.classList.toggle('expanded', !isNowCollapsed);
-}
-function expandAll() { collapsed.clear(); render(); }
-function collapseAll() {
-  Object.keys(nodes).forEach(id => { if (nodes[id].children && nodes[id].children.length) collapsed.add(id); });
-  render();
-}
-function expandToDepth(max) {
-  Object.keys(nodes).forEach(id => { if (nodes[id].children && nodes[id].children.length) collapsed.add(id); });
-  function open(node, d) { if (d <= max && node.children && node.children.length) { collapsed.delete(node.id); node.children.forEach(c => open(c, d+1)); } }
-  open(DATA, 0); render();
-}
+  // ── outerHTML নাও ──
+  let src = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
 
-// ═══════ PROFILE CARD ═══════
-const DEMO_IMG = 'https://i.ibb.co/Qv2FpSMP/image.png';
-const EXTRA = ${extraStr};
+  // ── DOM পুনরুদ্ধার ──
+  treeRoot.innerHTML  = savedTree;
+  if (eventsList) eventsList.innerHTML = savedEvents;
+  sheetDiv.innerHTML  = savedSheet;
+  toast.className     = savedToast;
+  // overlay/drawer state পুনরুদ্ধার (এগুলো আগে open ছিল না তাই আর দরকার নেই)
 
-function getGenColor(gen) { return ['#e8c96a','#f4a56a','#5ee8d8','#97b4f0','#f592c4','#b8e85a'][gen] || '#e8c96a'; }
+  // ── DATA ও EXTRA inject ──
+  // DATA: unique sentinel দিয়ে replace
+  src = src.replace(
+    /(\/\/ ═══════ DATA ═══════\s*\n)const DATA = \{[\s\S]*?\};\s*\n(\/\/ ═══════ INDEX)/,
+    `$1const DATA = ${dataStr};\n$2`
+  );
+  // EXTRA: unique sentinel দিয়ে replace
+  src = src.replace(
+    /^const EXTRA = \{[\s\S]*?\};\s*\n(function getGenColor)/m,
+    `const EXTRA = ${extraStr};\n\nfunction getGenColor`
+  );
 
-function showSheet(id) {
-  const n = nodes[id]; if (!n) return;
-  const par = n.pid ? nodes[n.pid] : null;
-  const grandpar = par && par.pid ? nodes[par.pid] : null;
-  const kids = n.children || [];
-  const extra = EXTRA[id] || {};
-  const genColor = getGenColor(n.gen);
-  const h = \`
-    <button class="profile-close" onclick="closeSheet()">✕</button>
-    <div class="profile-hero gen-hero-\${n.gen}">
-      <img class="profile-hero-img" src="\${DEMO_IMG}" alt="\${n.name}" onerror="this.style.display='none'">
-      <div class="profile-hero-overlay"></div>
-      <span class="profile-gen-badge gen-badge-\${n.gen}">\${GEN[n.gen] || ('প্রজন্ম ' + (n.gen + 1))}</span>
-      <div class="profile-avatar-wrap"><img src="\${DEMO_IMG}" alt="\${n.name}" onerror="this.style.opacity='0'"></div>
-    </div>
-    <div class="profile-body">
-      <div class="profile-name">\${n.name}</div>
-      <div class="profile-sub">\${extra.address || 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ'}</div>
-      \${n.notes ? \`<div class="profile-note">📌 \${n.notes}</div>\` : ''}
-      <div class="profile-section-title">ব্যক্তিগত তথ্য</div>
-      <div class="profile-info-grid">
-        \${extra.gender ? \`<div class="profile-info-box"><div class="pib-label">লিঙ্গ</div><div class="pib-value">\${extra.gender === 'পুরুষ' ? '👨 পুরুষ' : '👩 মহিলা'}</div></div>\` : ''}
-        \${extra.dob ? \`<div class="profile-info-box"><div class="pib-label">জন্ম তারিখ</div><div class="pib-value">🎂 \${extra.dob}</div></div>\` : ''}
-        <div class="profile-info-box"><div class="pib-label">পেশা</div><div class="pib-value">\${extra.job || 'অজানা'}</div></div>
-        <div class="profile-info-box"><div class="pib-label">প্রজন্ম</div><div class="pib-value gold">\${GEN[n.gen] || 'প্রজন্ম ' + (n.gen + 1)}</div></div>
-        \${par ? \`<div class="profile-info-box"><div class="pib-label">পিতার নাম</div><div class="pib-value" style="cursor:pointer;color:\${genColor}" onclick="closeSheet();showSheet('\${par.id}')">\${par.name}</div></div>\` : ''}
-        \${extra.mother ? \`<div class="profile-info-box"><div class="pib-label">মাতার নাম</div><div class="pib-value" style="color:#f592c4">\${extra.mother}</div></div>\` : ''}
-        \${grandpar ? \`<div class="profile-info-box"><div class="pib-label">দাদা / নানা</div><div class="pib-value" style="cursor:pointer;color:var(--text-muted)" onclick="closeSheet();showSheet('\${grandpar.id}')">\${grandpar.name}</div></div>\` : ''}
-        <div class="profile-info-box full"><div class="pib-label">ঠিকানা</div><div class="pib-value">📍 \${extra.address || 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ'}</div></div>
-      </div>
-      <div class="profile-section-title">সন্তানগণ (\${kids.length} জন)</div>
-      \${kids.length > 0 ? \`<div class="children-grid">\${kids.map(c => \`<div class="child-card" onclick="closeSheet();showSheet('\${c.id}')"><div class="child-card-avatar"><img src="\${DEMO_IMG}" alt="\${c.name}" onerror="this.style.opacity='0'"></div><div class="child-card-name">\${c.name}</div></div>\`).join('')}</div>\` : '<div class="pib-value muted" style="padding:4px 0">কোনো সন্তান নেই</div>'}
-    </div>\`;
-  document.getElementById('sheetContent').innerHTML = h;
-  document.getElementById('overlay').classList.add('open');
-}
-function closeSheet() { document.getElementById('overlay').classList.remove('open'); }
-function overlayClick(e) { if (e.target === document.getElementById('overlay')) closeSheet(); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
-
-// ═══════ SEARCH ═══════
-function applySearch() {
-  document.querySelectorAll('.item-card.highlighted').forEach(el => el.classList.remove('highlighted'));
-  results.forEach(id => { const el = document.querySelector(\`.item-card[data-id="\${id}"]\`); if (el) el.classList.add('highlighted'); });
-}
-function expandTo(id) { let n = nodes[id]; while (n.pid) { collapsed.delete(n.pid); n = nodes[n.pid]; } }
-function scrollTo() {
-  if (!results.length) return;
-  const id = results[resultIdx % results.length];
-  expandTo(id); render();
-  setTimeout(() => { const el = document.querySelector(\`.item-card[data-id="\${id}"]\`); if (el) el.scrollIntoView({ behavior:'smooth', block:'center' }); }, 80);
-}
-document.getElementById('searchInput').addEventListener('input', function() {
-  const q = this.value.toLowerCase().trim();
-  const cnt = document.getElementById('searchCount');
-  results = [];
-  if (!q) { cnt.style.display='none'; document.querySelectorAll('.item-card.highlighted').forEach(e=>e.classList.remove('highlighted')); return; }
-  Object.values(nodes).forEach(n => { if (n.name.toLowerCase().includes(q)) results.push(n.id); });
-  resultIdx = 0;
-  cnt.textContent = results.length || '0'; cnt.style.display = 'inline';
-  if (results.length) scrollTo();
-  else document.querySelectorAll('.item-card.highlighted').forEach(e=>e.classList.remove('highlighted'));
-});
-document.getElementById('searchInput').addEventListener('keydown', function(e) {
-  if (e.key==='Enter' && results.length) { resultIdx=(resultIdx+1)%results.length; scrollTo(); }
-});
-
-// ═══════ INIT ═══════
-Object.keys(nodes).forEach(id => { if (nodes[id].children && nodes[id].children.length) collapsed.add(id); });
-render();
-<\/script>
-</body>
-</html>`;
-
+  // ── ডাউনলোড ──
   const now = new Date();
   const pad = n => String(n).padStart(2,'0');
-  const stamp = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
-  const filename = `sheikh family pdf ${stamp}.html`;
+  const stamp = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}`;
+  const filename = `sheikh_family_${stamp}.html`;
 
-  const blob = new Blob([out], { type: 'text/html;charset=utf-8' });
+  const blob = new Blob([src], { type: 'text/html;charset=utf-8' });
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
   showToast('⬇️ ডাউনলোড হচ্ছে…', 'success');
@@ -2483,6 +2481,188 @@ window.onload = function() {
   btn.disabled = false;
 }
 
+// ═══════ TIMESTAMP UTILS ═══════
+function nowStamp() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+function shortStamp(s) {
+  if (!s) return '';
+  // "2025-02-26 14:35" → "২৬ ফেব্রু"
+  const months = ['জানু','ফেব্রু','মার্চ','এপ্রি','মে','জুন','জুলা','আগ','সেপ্ট','অক্টো','নভে','ডিসে'];
+  try {
+    const [datePart] = s.split(' ');
+    const [y,m,day] = datePart.split('-');
+    return `${parseInt(day)} ${months[parseInt(m)-1]} ${y.slice(2)}`;
+  } catch(e) { return s.slice(0,10); }
+}
+
+// ═══════ DATE PICKER HELPERS ═══════
+function openDatePicker(textId, nativeId) {
+  const nat = document.getElementById(nativeId);
+  if (!nat) return;
+  // Try to pre-fill native from text (ISO or "DD Month YYYY")
+  const cur = document.getElementById(textId).value.trim();
+  if (cur && /^\d{4}-\d{2}-\d{2}$/.test(cur)) nat.value = cur;
+  nat.style.pointerEvents = 'auto';
+  nat.showPicker ? nat.showPicker() : nat.click();
+  nat.style.pointerEvents = 'none';
+}
+function setDateFromPicker(textId, nativeId) {
+  const nat = document.getElementById(nativeId);
+  const txt = document.getElementById(textId);
+  if (!nat || !nat.value || !txt) return;
+  // Convert YYYY-MM-DD to Bengali-style readable
+  const [y,m,d] = nat.value.split('-');
+  const months = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+  txt.value = `${parseInt(d)} ${months[parseInt(m)-1]} ${y}`;
+  // Store ISO in a data attribute for event parsing
+  txt.dataset.iso = nat.value;
+}
+
+// ═══════ EVENTS ENGINE ═══════
+// Parse a date string → { month, day } (ISO preferred via data-iso attr, fallback text parse)
+function parseDateMD(str, isoStr) {
+  if (isoStr && /^\d{4}-\d{2}-\d{2}$/.test(isoStr)) {
+    const [,m,d] = isoStr.split('-');
+    return { month: parseInt(m), day: parseInt(d), year: parseInt(isoStr.split('-')[0]) };
+  }
+  if (!str) return null;
+  // Try ISO format
+  if (/^\d{4}-\d{2}-\d{2}$/.test(str.trim())) {
+    const [y,m,d] = str.trim().split('-');
+    return { month: parseInt(m), day: parseInt(d), year: parseInt(y) };
+  }
+  // Bengali text "15 জানুয়ারি 1980"
+  const monthMap = {
+    'জানুয়ারি':1,'ফেব্রুয়ারি':2,'মার্চ':3,'এপ্রিল':4,'মে':5,'জুন':6,
+    'জুলাই':7,'আগস্ট':8,'সেপ্টেম্বর':9,'অক্টোবর':10,'নভেম্বর':11,'ডিসেম্বর':12,
+    'january':1,'february':2,'march':3,'april':4,'may':5,'june':6,
+    'july':7,'august':8,'september':9,'october':10,'november':11,'december':12,
+  };
+  const parts = str.trim().split(/\s+/);
+  let day = null, month = null, year = null;
+  for (const p of parts) {
+    const n = parseInt(p);
+    if (!isNaN(n)) {
+      if (n > 31) year = n;
+      else if (day === null) day = n;
+    } else {
+      month = monthMap[p.toLowerCase()] || null;
+    }
+  }
+  if (day && month) return { month, day, year };
+  return null;
+}
+
+function daysUntilNextOccurrence(month, day) {
+  const today = new Date();
+  const thisYear = today.getFullYear();
+  let next = new Date(thisYear, month - 1, day);
+  if (next < today && !(next.getDate() === today.getDate() && next.getMonth() === today.getMonth())) {
+    next = new Date(thisYear + 1, month - 1, day);
+  }
+  const diff = Math.round((next - new Date(today.getFullYear(), today.getMonth(), today.getDate())) / 86400000);
+  return diff;
+}
+
+function renderEvents() {
+  const list = document.getElementById('events-list');
+  const badge = document.getElementById('events-badge');
+  if (!list) return;
+
+  const WINDOW_DAYS = 30; // show events within 30 days
+  const events = [];
+
+  Object.keys(EXTRA).forEach(id => {
+    const ex = EXTRA[id];
+    const nd = nodes[id];
+    if (!nd) return;
+    const name = nd.name;
+
+    // Birth
+    if (ex.dob) {
+      const md = parseDateMD(ex.dob, null);
+      if (md) {
+        const days = daysUntilNextOccurrence(md.month, md.day);
+        if (days <= WINDOW_DAYS) {
+          const age = md.year ? (new Date().getFullYear() - md.year + (days === 0 ? 0 : (days > 0 ? 0 : 1))) : null;
+          events.push({ id, name, type:'birth', days,
+            desc: days===0 ? '🎉 আজ জন্মদিন!' + (age ? ` (${age} বছর)` : '') : `জন্মদিন${age ? ` · ${age + (days>0?0:1)} বছর হবে`:''}`,
+            icon:'🎂' });
+        }
+      }
+    }
+
+    // Death anniversary
+    if (ex.dod) {
+      const md = parseDateMD(ex.dod, null);
+      if (md) {
+        const days = daysUntilNextOccurrence(md.month, md.day);
+        if (days <= WINDOW_DAYS) {
+          const yrs = md.year ? (new Date().getFullYear() - md.year + (days > 0 ? 1 : 0)) : null;
+          events.push({ id, name, type:'death', days,
+            desc: days===0 ? '🕯️ আজ মৃত্যুবার্ষিকী' + (yrs?` (${yrs} বছর)`:'') : `মৃত্যুবার্ষিকী` + (yrs?` · ${yrs} বছর`:''),
+            icon:'🕯️' });
+        }
+      }
+    }
+
+    // Wedding anniversary
+    if (ex.wdate && ex.marital === 'বিবাহিত') {
+      const md = parseDateMD(ex.wdate, null);
+      if (md) {
+        const days = daysUntilNextOccurrence(md.month, md.day);
+        if (days <= WINDOW_DAYS) {
+          const yrs = md.year ? (new Date().getFullYear() - md.year + (days > 0 ? 1 : 0)) : null;
+          events.push({ id, name, type:'anniv', days,
+            desc: days===0 ? '💍 আজ বিবাহ বার্ষিকী!' + (yrs?` (${yrs} বছর)`:'') : `বিবাহ বার্ষিকী` + (yrs?` · ${yrs} বছর`:''),
+            icon:'💍' });
+        }
+      }
+    }
+  });
+
+  // Sort by days ascending
+  events.sort((a,b) => a.days - b.days);
+
+  list.innerHTML = '';
+  badge.textContent = events.length ? events.length : '';
+
+  if (!events.length) {
+    list.innerHTML = `<div style="padding:10px 12px;font-size:12px;color:var(--text-muted);text-align:center;">আগামী ৩০ দিনে কোনো বিশেষ দিন নেই</div>`;
+    return;
+  }
+
+  events.forEach(ev => {
+    const row = document.createElement('div');
+    row.className = `event-row ev-${ev.type}${ev.days===0?' ev-today':''}`;
+    row.onclick = () => { showSheet(ev.id); };
+
+    const daysLabel = ev.days === 0 ? 'আজ' : ev.days === 1 ? 'কাল' : `${ev.days} দিন`;
+
+    row.innerHTML = `
+      <div class="event-icon">${ev.icon}</div>
+      <div class="event-info">
+        <div class="event-name">${ev.name}</div>
+        <div class="event-desc">${ev.desc}</div>
+      </div>
+      <div class="event-days">
+        <div class="event-days-num">${daysLabel}</div>
+        <div class="event-days-label">${ev.days===0?'':'বাকি'}</div>
+      </div>`;
+    list.appendChild(row);
+  });
+}
+
+function toggleEventsPanel() {
+  const panel = document.getElementById('events-panel');
+  const icon  = document.getElementById('events-toggle-icon');
+  panel.classList.toggle('collapsed-panel');
+  icon.classList.toggle('open');
+}
+
 // ═══════ THEME TOGGLE ═══════
 (function() {
   const saved = localStorage.getItem('sheikh_theme');
@@ -2513,6 +2693,7 @@ Object.keys(nodes).forEach(id => {
   if (nodes[id].children && nodes[id].children.length) collapsed.add(id);
 });
 render();
+renderEvents();
 </script>
 </body>
 </html>
