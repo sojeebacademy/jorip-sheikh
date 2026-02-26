@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>শেখ পরিবার</title>
+<title>Sheikh Family Tree</title>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-
 :root {
   --bg: #0f0e0c;
   --surface: #1a1814;
@@ -19,6 +18,251 @@
   --highlight: #f5c842;
   --shadow: rgba(0,0,0,0.5);
 }
+
+/* ══════════════════════════════════════
+   LIGHT THEME – overrides all CSS vars
+   ══════════════════════════════════════ */
+body.light {
+  --bg:        #f4f0e8;
+  --surface:   #ffffff;
+  --surface2:  #f0ece2;
+  --border:    #d6cdb8;
+  --gold:      #9a6e1a;
+  --gold-dim:  #c49a3a;
+  --text:      #2a2218;
+  --text-muted:#7a6e58;
+  --highlight: #c9870a;
+  --shadow:    rgba(0,0,0,0.12);
+}
+
+/* Light – body/html bg */
+body.light, body.light html { background: var(--bg); }
+
+/* Light – header */
+body.light #header { background: #fff8ec; border-bottom-color: var(--border); }
+body.light #toolbar { background: #faf6ee; border-bottom-color: var(--border); }
+body.light #genbar  { background: #fff8ec; border-bottom-color: var(--border); }
+
+/* Light – genbar bottom stripe */
+body.light .genbar-item::after { opacity: 0.9; }
+
+/* Light – search input */
+body.light #searchInput {
+  background: #faf6ee; border-color: var(--border);
+  color: var(--text);
+}
+body.light #searchInput::placeholder { color: var(--text-muted); }
+
+/* Light – item cards base */
+body.light .item-card {
+  background: #fff;
+  border-color: var(--border);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+body.light .item-card:hover { filter: brightness(0.97); }
+body.light .item-card.highlighted {
+  background: rgba(201,168,76,0.12);
+  border-color: var(--highlight);
+}
+
+/* Light – toggle button */
+body.light .toggle-btn {
+  background: #faf6ee;
+  border-color: var(--border);
+  color: var(--gold-dim);
+}
+body.light .toggle-btn:hover { background: var(--gold-dim); color: #fff; }
+
+/* Light – info btn */
+body.light .info-btn { border-color: var(--border); color: var(--text-muted); }
+body.light .info-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+
+/* Light – tree connector rails */
+body.light .depth-0 > .item-children { border-color: rgba(154,110,26,0.45); }
+body.light .depth-1 > .item-children { border-color: rgba(200,90,20,0.4); }
+body.light .depth-2 > .item-children { border-color: rgba(14,140,125,0.4); }
+body.light .depth-3 > .item-children { border-color: rgba(60,90,180,0.4); }
+body.light .depth-4 > .item-children { border-color: rgba(180,30,100,0.4); }
+body.light .depth-5 > .item-children { border-color: rgba(80,150,10,0.4); }
+
+/* Light – GEN 0 GOLD */
+body.light .depth-0 > .item-row .item-card {
+  background: linear-gradient(135deg,#fff8e0,#fdf0c4);
+  border-color: #c9a84c;
+  box-shadow: 0 2px 8px rgba(201,168,76,0.2);
+}
+body.light .depth-0 > .item-row .item-name { color: #7a4f08; }
+body.light .depth-0 > .item-row .toggle-btn { border-color: #c9a84c; color: #9a6e1a; }
+body.light .depth-0 > .item-row .toggle-btn:hover { background: #c9a84c; color: #fff; }
+body.light .depth-0 > .item-row .item-badge { background: rgba(201,168,76,0.18); border-color: rgba(201,168,76,0.5); color: #7a4f08; }
+
+/* Light – GEN 1 AMBER */
+body.light .depth-1 > .item-row .item-card {
+  background: linear-gradient(135deg, rgba(234,120,50,0.1), rgba(234,120,50,0.04));
+  border-color: rgba(200,90,20,0.4);
+}
+body.light .depth-1 > .item-row .item-name { color: #b84a08; }
+body.light .depth-1 > .item-row .toggle-btn { border-color: rgba(200,90,20,0.5); color: #c05010; }
+body.light .depth-1 > .item-row .toggle-btn:hover { background: #c05010; color: #fff; }
+body.light .depth-1 > .item-row .item-badge { background: rgba(200,90,20,0.1); border-color: rgba(200,90,20,0.35); color: #b84a08; }
+body.light .depth-1 > .item-row .info-btn { border-color: rgba(200,90,20,0.3); color: #c05010; }
+
+/* Light – GEN 2 TEAL */
+body.light .depth-2 > .item-row .item-card {
+  background: linear-gradient(135deg, rgba(14,140,125,0.1), rgba(14,140,125,0.04));
+  border-color: rgba(14,140,125,0.4);
+}
+body.light .depth-2 > .item-row .item-name { color: #0a6e60; }
+body.light .depth-2 > .item-row .toggle-btn { border-color: rgba(14,140,125,0.5); color: #0a8a78; }
+body.light .depth-2 > .item-row .toggle-btn:hover { background: #0a8a78; color: #fff; }
+body.light .depth-2 > .item-row .item-badge { background: rgba(14,140,125,0.1); border-color: rgba(14,140,125,0.35); color: #0a6e60; }
+body.light .depth-2 > .item-row .info-btn { border-color: rgba(14,140,125,0.3); color: #0a8a78; }
+
+/* Light – GEN 3 INDIGO */
+body.light .depth-3 > .item-row .item-card {
+  background: linear-gradient(135deg, rgba(60,90,200,0.1), rgba(60,90,200,0.04));
+  border-color: rgba(60,90,200,0.4);
+}
+body.light .depth-3 > .item-row .item-name { color: #2a4aaa; }
+body.light .depth-3 > .item-row .toggle-btn { border-color: rgba(60,90,200,0.5); color: #3458c8; }
+body.light .depth-3 > .item-row .toggle-btn:hover { background: #3458c8; color: #fff; }
+body.light .depth-3 > .item-row .item-badge { background: rgba(60,90,200,0.1); border-color: rgba(60,90,200,0.35); color: #2a4aaa; }
+body.light .depth-3 > .item-row .info-btn { border-color: rgba(60,90,200,0.3); color: #3458c8; }
+
+/* Light – GEN 4 ROSE */
+body.light .depth-4 > .item-row .item-card {
+  background: linear-gradient(135deg, rgba(180,30,100,0.09), rgba(180,30,100,0.03));
+  border-color: rgba(180,30,100,0.4);
+}
+body.light .depth-4 > .item-row .item-name { color: #a0185a; }
+body.light .depth-4 > .item-row .toggle-btn { border-color: rgba(180,30,100,0.5); color: #b82070; }
+body.light .depth-4 > .item-row .toggle-btn:hover { background: #b82070; color: #fff; }
+body.light .depth-4 > .item-row .item-badge { background: rgba(180,30,100,0.09); border-color: rgba(180,30,100,0.35); color: #a0185a; }
+body.light .depth-4 > .item-row .info-btn { border-color: rgba(180,30,100,0.3); color: #b82070; }
+
+/* Light – GEN 5 LIME */
+body.light .depth-5 > .item-row .item-card {
+  background: linear-gradient(135deg, rgba(80,150,10,0.1), rgba(80,150,10,0.03));
+  border-color: rgba(80,150,10,0.4);
+}
+body.light .depth-5 > .item-row .item-name { color: #3a7a08; }
+body.light .depth-5 > .item-row .toggle-btn { border-color: rgba(80,150,10,0.5); color: #509610; }
+body.light .depth-5 > .item-row .toggle-btn:hover { background: #509610; color: #fff; }
+body.light .depth-5 > .item-row .item-badge { background: rgba(80,150,10,0.09); border-color: rgba(80,150,10,0.35); color: #3a7a08; }
+body.light .depth-5 > .item-row .info-btn { border-color: rgba(80,150,10,0.3); color: #509610; }
+
+/* Light – deeper gens (6-14) use semi-transparent background pattern */
+body.light .depth-6 > .item-row .item-card  { background: linear-gradient(135deg,rgba(130,50,220,0.08),rgba(130,50,220,0.03)); border-color: rgba(130,50,220,0.35); }
+body.light .depth-6 > .item-row .item-name  { color: #6020b0; }
+body.light .depth-7 > .item-row .item-card  { background: linear-gradient(135deg,rgba(180,20,20,0.08),rgba(180,20,20,0.03)); border-color: rgba(180,20,20,0.35); }
+body.light .depth-7 > .item-row .item-name  { color: #a01818; }
+body.light .depth-8 > .item-row .item-card  { background: linear-gradient(135deg,rgba(0,148,130,0.08),rgba(0,148,130,0.03)); border-color: rgba(0,148,130,0.35); }
+body.light .depth-8 > .item-row .item-name  { color: #006054; }
+body.light .depth-9 > .item-row .item-card  { background: linear-gradient(135deg,rgba(20,80,200,0.08),rgba(20,80,200,0.03)); border-color: rgba(20,80,200,0.35); }
+body.light .depth-9 > .item-row .item-name  { color: #1040b0; }
+body.light .depth-10 > .item-row .item-card { background: linear-gradient(135deg,rgba(220,60,80,0.08),rgba(220,60,80,0.03)); border-color: rgba(220,60,80,0.35); }
+body.light .depth-10 > .item-row .item-name { color: #b02040; }
+body.light .depth-11 > .item-row .item-card { background: linear-gradient(135deg,rgba(10,160,100,0.08),rgba(10,160,100,0.03)); border-color: rgba(10,160,100,0.35); }
+body.light .depth-11 > .item-row .item-name { color: #087048; }
+body.light .depth-12 > .item-row .item-card { background: linear-gradient(135deg,rgba(100,60,220,0.08),rgba(100,60,220,0.03)); border-color: rgba(100,60,220,0.35); }
+body.light .depth-12 > .item-row .item-name { color: #5830b8; }
+body.light .depth-13 > .item-row .item-card { background: linear-gradient(135deg,rgba(200,40,40,0.08),rgba(200,40,40,0.03)); border-color: rgba(200,40,40,0.35); }
+body.light .depth-13 > .item-row .item-name { color: #981010; }
+body.light .depth-14 > .item-row .item-card { background: linear-gradient(135deg,rgba(0,160,190,0.08),rgba(0,160,190,0.03)); border-color: rgba(0,160,190,0.35); }
+body.light .depth-14 > .item-row .item-name { color: #005870; }
+
+/* Light – horizontal tick connector */
+body.light .item-row::before { background: var(--border); }
+
+/* Light – profile overlay/sheet */
+body.light #overlay { background: rgba(0,0,0,0.5); }
+body.light #sheet {
+  background: #fff;
+  border-color: var(--border);
+}
+body.light .profile-body { background: #fff; }
+body.light .profile-name { color: var(--gold); }
+body.light .profile-sub  { color: var(--text-muted); }
+body.light .profile-section-title { color: var(--gold-dim); border-bottom-color: var(--border); }
+body.light .profile-info-box {
+  background: var(--surface2);
+  border-color: var(--border);
+}
+body.light .pib-label { color: var(--text-muted); }
+body.light .pib-value { color: var(--text); }
+body.light .pib-value.gold { color: var(--gold); }
+body.light .child-card { background: var(--surface2); border-color: var(--border); }
+body.light .child-card:hover { border-color: var(--gold-dim); }
+body.light .child-card-name { color: var(--text); }
+body.light .profile-note {
+  background: rgba(154,110,26,0.08);
+  border-color: rgba(154,110,26,0.3);
+  color: var(--gold-dim);
+}
+body.light .profile-close {
+  background: rgba(0,0,0,0.12);
+  border-color: rgba(0,0,0,0.15);
+  color: #333;
+}
+
+/* Light – control panel */
+body.light #cp-overlay { background: rgba(0,0,0,0.3); }
+body.light #cp-drawer { background: #fff; border-left-color: var(--border); }
+body.light .cp-header { border-bottom-color: var(--border); }
+body.light .cp-tabs { border-color: var(--border); }
+body.light .cp-tab { color: var(--text-muted); }
+body.light .cp-tab.active { background: var(--gold-dim); color: #fff; }
+body.light .cp-tab:not(:last-child) { border-right-color: var(--border); }
+body.light .cp-section-title { color: var(--gold-dim); border-bottom-color: var(--border); }
+body.light .cp-label { color: var(--text-muted); }
+body.light .cp-input, body.light .cp-select {
+  background: var(--surface2); border-color: var(--border); color: var(--text);
+}
+body.light .cp-input::placeholder { color: var(--text-muted); }
+body.light .cp-select option { background: var(--surface2); }
+body.light .cp-member-row { background: var(--surface2); border-color: var(--border); }
+body.light .cp-member-row:hover { border-color: var(--gold-dim); }
+body.light .cp-member-row.selected { background: rgba(154,110,26,0.1); border-color: var(--gold); }
+body.light .cp-member-name { color: var(--text); }
+body.light .cp-member-gen  { color: var(--text-muted); }
+body.light .cp-close { border-color: var(--border); color: var(--text-muted); }
+body.light .cp-close:hover { color: var(--text); }
+body.light .cp-search { background: var(--surface2); border-color: var(--border); color: var(--text); }
+body.light .cp-search::placeholder { color: var(--text-muted); }
+body.light .cp-empty { color: var(--text-muted); }
+
+/* Light – footer */
+body.light #site-footer { background: linear-gradient(135deg,#fff0d0,#faecd8); border-top-color: var(--border); }
+body.light .footer-label { color: var(--text-muted); }
+body.light .footer-divider { background: var(--border); }
+body.light .footer-contact-title { color: var(--text-muted); }
+
+/* Light – toast */
+body.light #toast { background: #fff; border-color: var(--border); color: var(--text); }
+body.light #toast.success { border-color: #2e8b57; color: #2e8b57; }
+body.light #toast.error   { border-color: #c0392b; color: #c0392b; }
+
+/* Light – icon/theme btn */
+body.light .icon-btn { background: #faf6ee; border-color: var(--border); color: var(--text-muted); }
+body.light .icon-btn:hover { border-color: var(--gold-dim); color: var(--gold); background: #fff; }
+body.light .btn { background: #fff; border-color: var(--border); color: var(--text-muted); }
+body.light .btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+
+/* Theme toggle button */
+#theme-btn {
+  flex-shrink: 0;
+  display: flex; align-items: center; gap: 5px;
+  padding: 0 10px; height: 28px; border-radius: 20px;
+  border: 1px solid var(--border); background: var(--surface2);
+  color: var(--text-muted); font-size: 11px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+  font-family: 'Hind Siliguri', sans-serif;
+  white-space: nowrap;
+}
+#theme-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+#theme-btn .theme-icon { font-size: 14px; transition: transform 0.4s ease; }
+body.light #theme-btn .theme-icon { transform: rotate(180deg); }
+body.light #theme-btn { background: #fff0d0; border-color: #d6a840; color: #7a4f08; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; font-family: 'Hind Siliguri', sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
 
@@ -113,7 +357,7 @@ html, body { height: 100%; font-family: 'Hind Siliguri', sans-serif; background:
 /* ── SCROLL AREA ── */
 #main {
   flex: 1; overflow-y: auto; overflow-x: hidden;
-  -webkit-overflow-scrolling: touch; padding: 10px 10px 40px;
+  -webkit-overflow-scrolling: touch; padding: 10px 10px 20px;
 }
 
 /* ── TREE ── */
@@ -756,6 +1000,72 @@ html, body { height: 100%; font-family: 'Hind Siliguri', sans-serif; background:
 
 .cp-empty { text-align: center; color: var(--text-muted); font-size: 12px; padding: 20px 0; }
 
+/* ── FOOTER ── */
+#site-footer {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #13100a, #1a1510);
+  border-top: 1px solid var(--border);
+  padding: 14px 16px 12px;
+}
+.footer-inner {
+  max-width: 600px; margin: 0 auto;
+  text-align: center;
+}
+.footer-label {
+  font-size: 11px; color: var(--text-muted);
+  letter-spacing: 0.3px;
+}
+.footer-name {
+  font-size: 18px; font-weight: 700;
+  color: var(--gold);
+  margin: 4px 0 6px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 18px rgba(201,168,76,0.4);
+}
+.footer-fb {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; color: #7ec8f4;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-fb:hover { color: #a8d8ff; }
+.footer-divider {
+  height: 1px; background: var(--border);
+  margin: 10px 0 8px; opacity: 0.5;
+}
+.footer-contact-title {
+  font-size: 10px; color: var(--text-muted);
+  letter-spacing: 0.4px; margin-bottom: 8px;
+}
+.footer-links {
+  display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+}
+.footer-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600;
+  padding: 5px 12px; border-radius: 20px;
+  text-decoration: none; border: 1px solid;
+  transition: all 0.15s; white-space: nowrap;
+}
+.footer-link.messenger {
+  color: #7ec8f4;
+  border-color: rgba(126,200,244,0.35);
+  background: rgba(126,200,244,0.07);
+}
+.footer-link.messenger:hover { background: rgba(126,200,244,0.15); }
+.footer-link.whatsapp {
+  color: #6ee86e;
+  border-color: rgba(110,232,110,0.35);
+  background: rgba(110,232,110,0.07);
+}
+.footer-link.whatsapp:hover { background: rgba(110,232,110,0.15); }
+.footer-link.email {
+  color: #f4a56a;
+  border-color: rgba(244,165,106,0.35);
+  background: rgba(244,165,106,0.07);
+}
+.footer-link.email:hover { background: rgba(244,165,106,0.15); }
+
 /* ── PRINT ── */
 @media print {
   html,body { height:auto; overflow:visible; }
@@ -770,7 +1080,1004 @@ html, body { height: 100%; font-family: 'Hind Siliguri', sans-serif; background:
   .item-children.collapsed { display:block !important; }
   #overlay { display:none !important; }
 }
+</style>
+</head>
+<body>
+<div id="app">
 
+  <div id="header">
+    <h1>🌿 শেখ পরিবার</h1>
+    <div class="search-wrap">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="text" id="searchInput" placeholder="সদস্য খুঁজুন… (Enter = পরবর্তী)">
+      <span id="searchCount"></span>
+    </div>
+    <div class="header-actions">
+      <button id="theme-btn" onclick="toggleTheme()" title="থিম পরিবর্তন">
+        <span class="theme-icon">🌙</span>
+        <span id="theme-label">লাইট</span>
+      </button>
+      <button class="icon-btn" onclick="openCP()" title="নিয়ন্ত্রণ প্যানেল">⚙️</button>
+    </div>
+  </div>
+
+  <div id="toolbar">
+    <button class="btn" onclick="expandAll()">সব খুলুন</button>
+    <button class="btn" onclick="collapseAll()">সব বন্ধ করুন</button>
+    <button class="btn" onclick="expandToDepth(1)">২য়</button>
+    <button class="btn" onclick="expandToDepth(2)">৩য়</button>
+    <button class="btn" onclick="expandToDepth(3)">৪র্থ</button>
+    <button class="btn" onclick="expandToDepth(4)">৫ম</button>
+    <button class="btn" onclick="expandToDepth(5)">৬ষ্ঠ</button>
+    <button class="btn" id="pdf-btn" style="border-color:rgba(201,168,76,0.5);color:#e8c96a;background:rgba(201,168,76,0.1);font-weight:600;" onclick="downloadPDF()">📄 PDF ডাউনলোড</button>
+  </div>
+
+  <!-- Generation Legend Bar -->
+  <div id="genbar">
+    <div class="genbar-item" style="--gc:#e8c96a">
+      <div class="genbar-dot" style="background:#e8c96a"></div>
+      <span>১ম</span>
+    </div>
+    <div class="genbar-item" style="--gc:#f4a56a">
+      <div class="genbar-dot" style="background:#f4a56a"></div>
+      <span>২য়</span>
+    </div>
+    <div class="genbar-item" style="--gc:#5ee8d8">
+      <div class="genbar-dot" style="background:#5ee8d8"></div>
+      <span>৩য়</span>
+    </div>
+    <div class="genbar-item" style="--gc:#97b4f0">
+      <div class="genbar-dot" style="background:#97b4f0"></div>
+      <span>৪র্থ</span>
+    </div>
+    <div class="genbar-item" style="--gc:#f592c4">
+      <div class="genbar-dot" style="background:#f592c4"></div>
+      <span>৫ম</span>
+    </div>
+    <div class="genbar-item" style="--gc:#b8e85a">
+      <div class="genbar-dot" style="background:#b8e85a"></div>
+      <span>৬ষ্ঠ</span>
+    </div>
+  </div>
+
+  <div id="main">
+    <ul id="treeRoot" class="tree-list"></ul>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <span class="footer-label">এই ওয়েব সাইটির নির্মাতা ও সম্পাদক</span>
+      </div>
+      <div class="footer-name">Sojeeb Sheikh</div>
+      <a class="footer-fb" href="https://www.facebook.com/imyoursojeeb" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        www.facebook.com/imyoursojeeb
+      </a>
+      <div class="footer-divider"></div>
+      <div class="footer-contact-title">সদস্য যোগ করতে, সম্পাদন করতে বা সরাতে যোগাযোগ করুন</div>
+      <div class="footer-links">
+        <a class="footer-link messenger" href="https://m.me/imyoursojeeb" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.914 1.452 5.51 3.727 7.215V22l3.376-1.85c.9.249 1.852.383 2.897.383 5.523 0 10-4.145 10-9.243C22 6.145 17.523 2 12 2zm1.006 12.43l-2.547-2.718-4.973 2.718 5.467-5.802 2.609 2.718 4.911-2.718-5.467 5.802z"/></svg>
+          Messenger
+        </a>
+        <a class="footer-link whatsapp" href="https://wa.me/qr/WVTFCXUB67U7C1" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.122 1.532 5.853L0 24l6.335-1.502A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.001-1.366l-.358-.213-3.762.892.907-3.668-.234-.376A9.818 9.818 0 1 1 12 21.818z"/></svg>
+          WhatsApp
+        </a>
+        <a class="footer-link email" href="mailto:sheikhsojeeb@gmail.com">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email
+        </a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ── CONTROL PANEL ── -->
+<div id="cp-overlay" onclick="closeCP()"></div>
+<div id="cp-drawer">
+  <div class="cp-header">
+    <div class="cp-title">⚙️ নিয়ন্ত্রণ প্যানেল</div>
+    <button class="cp-close" onclick="closeCP()">✕</button>
+  </div>
+  <div class="cp-body">
+    <!-- Tabs -->
+    <div class="cp-tabs">
+      <button class="cp-tab active" onclick="switchTab('add')">➕ যোগ করুন</button>
+      <button class="cp-tab" onclick="switchTab('edit')">✏️ সম্পাদনা</button>
+      <button class="cp-tab" onclick="switchTab('remove')">🗑️ মুছুন</button>
+    </div>
+
+    <!-- ADD TAB -->
+    <div class="cp-panel active" id="tab-add">
+      <div class="cp-section-title">নতুন সদস্য যোগ করুন</div>
+      <div class="cp-field">
+        <label class="cp-label">নাম (বাংলা) *</label>
+        <input class="cp-input" id="add-name" placeholder="যেমন: রহিম শেখ" type="text">
+      </div>
+      <div class="cp-field">
+        <label class="cp-label">পিতা / অভিভাবক *</label>
+        <input class="cp-search" id="add-parent-search" placeholder="পিতার নাম লিখুন…" oninput="filterParentList(this.value)">
+        <div class="cp-member-list" id="add-parent-list"></div>
+        <input type="hidden" id="add-parent-id">
+      </div>
+      <div class="cp-section-title">অতিরিক্ত তথ্য</div>
+      <div class="cp-field">
+        <label class="cp-label">লিঙ্গ</label>
+        <select class="cp-select" id="add-gender">
+          <option value="">নির্বাচন করুন</option>
+          <option value="পুরুষ">পুরুষ</option>
+          <option value="মহিলা">মহিলা</option>
+        </select>
+      </div>
+      <div class="cp-field">
+        <label class="cp-label">জন্ম তারিখ</label>
+        <input class="cp-input" id="add-dob" placeholder="যেমন: ১৫ জানুয়ারি ১৯৮০" type="text">
+      </div>
+      <div class="cp-field">
+        <label class="cp-label">মাতার নাম</label>
+        <input class="cp-input" id="add-mother" placeholder="যেমন: রহিমা বেগম" type="text">
+      </div>
+      <div class="cp-field">
+        <label class="cp-label">পেশা</label>
+        <input class="cp-input" id="add-job" placeholder="যেমন: কৃষক, ব্যবসায়ী…" type="text">
+      </div>
+      <div class="cp-field">
+        <label class="cp-label">ঠিকানা</label>
+        <input class="cp-input" id="add-address" placeholder="যেমন: গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ" type="text">
+      </div>
+      <!-- বিবাহ তথ্য -->
+      <div class="cp-section-title">বিবাহ তথ্য</div>
+      <div class="cp-field">
+        <label class="cp-label">বৈবাহিক অবস্থা</label>
+        <select class="cp-select" id="add-marital" onchange="toggleAddMarriage(this.value)">
+          <option value="">নির্বাচন করুন</option>
+          <option value="বিবাহিত">বিবাহিত</option>
+          <option value="অবিবাহিত">অবিবাহিত</option>
+          <option value="বিধবা/বিপত্নীক">বিধবা/বিপত্নীক</option>
+        </select>
+      </div>
+      <div id="add-marriage-fields" style="display:none">
+        <div class="cp-field">
+          <label class="cp-label">স্ত্রীর নাম</label>
+          <input class="cp-input" id="add-wife" placeholder="যেমন: রহিমা বেগম" type="text">
+        </div>
+        <div class="cp-field">
+          <label class="cp-label">বিবাহের তারিখ</label>
+          <input class="cp-input" id="add-wdate" placeholder="যেমন: ১৫ জুন ২০০০" type="text">
+        </div>
+      </div>
+      <div class="cp-field">
+        <label class="cp-label">বিশেষ তথ্য / নোট</label>
+        <input class="cp-input" id="add-notes" placeholder="যেমন: পুত্র নেই…" type="text">
+      </div>
+      <button class="cp-btn cp-btn-add" onclick="addMember()">✅ সদস্য যোগ করুন</button>
+      <div style="height:10px"></div>
+      <button class="cp-btn" style="background:linear-gradient(135deg,#1a4a6b,#0d2d42);color:#7ec8f4;border:none;" onclick="downloadHTML()">⬇️ আপডেটেড HTML ডাউনলোড করুন</button>
+    </div>
+
+    <!-- EDIT TAB -->
+    <div class="cp-panel" id="tab-edit">
+      <div class="cp-section-title">সদস্য নির্বাচন করুন</div>
+      <input class="cp-search" id="edit-search" placeholder="নাম লিখুন…" oninput="filterEditList(this.value)">
+      <div class="cp-member-list" id="edit-member-list"></div>
+      <div id="edit-form" style="display:none">
+        <div class="cp-section-title">তথ্য পরিবর্তন করুন</div>
+        <input type="hidden" id="edit-id">
+        <div class="cp-field">
+          <label class="cp-label">নাম</label>
+          <input class="cp-input" id="edit-name" type="text">
+        </div>
+        <div class="cp-field">
+          <label class="cp-label">লিঙ্গ</label>
+          <select class="cp-select" id="edit-gender">
+            <option value="">নির্বাচন করুন</option>
+            <option value="পুরুষ">পুরুষ</option>
+            <option value="মহিলা">মহিলা</option>
+          </select>
+        </div>
+        <div class="cp-field">
+          <label class="cp-label">জন্ম তারিখ</label>
+          <input class="cp-input" id="edit-dob" type="text" placeholder="যেমন: ১৫ জানুয়ারি ১৯৮০">
+        </div>
+        <div class="cp-field">
+          <label class="cp-label">মাতার নাম</label>
+          <input class="cp-input" id="edit-mother" type="text" placeholder="যেমন: রহিমা বেগম">
+        </div>
+        <div class="cp-field">
+          <label class="cp-label">পেশা</label>
+          <input class="cp-input" id="edit-job" type="text">
+        </div>
+        <div class="cp-field">
+          <label class="cp-label">ঠিকানা</label>
+          <input class="cp-input" id="edit-address" type="text">
+        </div>
+        <!-- বিবাহ তথ্য -->
+        <div class="cp-section-title">বিবাহ তথ্য</div>
+        <div class="cp-field">
+          <label class="cp-label">বৈবাহিক অবস্থা</label>
+          <select class="cp-select" id="edit-marital" onchange="toggleEditMarriage(this.value)">
+            <option value="">নির্বাচন করুন</option>
+            <option value="বিবাহিত">বিবাহিত</option>
+            <option value="অবিবাহিত">অবিবাহিত</option>
+            <option value="বিধবা/বিপত্নীক">বিধবা/বিপত্নীক</option>
+          </select>
+        </div>
+        <div id="edit-marriage-fields" style="display:none">
+          <div class="cp-field">
+            <label class="cp-label">স্ত্রীর নাম</label>
+            <input class="cp-input" id="edit-wife" placeholder="যেমন: রহিমা বেগম" type="text">
+          </div>
+          <div class="cp-field">
+            <label class="cp-label">বিবাহের তারিখ</label>
+            <input class="cp-input" id="edit-wdate" placeholder="যেমন: ১৫ জুন ২০০০" type="text">
+          </div>
+        </div>
+        <div class="cp-field">
+          <label class="cp-label">নোট</label>
+          <input class="cp-input" id="edit-notes" type="text">
+        </div>
+        <button class="cp-btn cp-btn-edit" onclick="saveEdit()">💾 সংরক্ষণ করুন</button>
+        <div style="height:10px"></div>
+        <button class="cp-btn" style="background:linear-gradient(135deg,#1a4a6b,#0d2d42);color:#7ec8f4;border:none;" onclick="downloadHTML()">⬇️ আপডেটেড HTML ডাউনলোড করুন</button>
+      </div>
+    </div>
+
+    <!-- REMOVE TAB -->
+    <div class="cp-panel" id="tab-remove">
+      <div class="cp-section-title">মুছতে সদস্য নির্বাচন করুন</div>
+      <input class="cp-search" id="remove-search" placeholder="নাম লিখুন…" oninput="filterRemoveList(this.value)">
+      <div class="cp-member-list" id="remove-member-list"></div>
+      <div id="remove-confirm" style="display:none; margin-top:12px;">
+        <div style="background:rgba(192,57,43,0.1); border:1px solid rgba(192,57,43,0.3); border-radius:8px; padding:12px; margin-bottom:10px; font-size:13px; color:#e87070; line-height:1.5;">
+          ⚠️ <strong id="remove-name-display"></strong> এবং তার সকল বংশধর মুছে যাবে। এই কাজ পূর্বাবস্থায় ফেরানো যাবে না।
+        </div>
+        <button class="cp-btn cp-btn-remove" onclick="removeMember()">🗑️ স্থায়ীভাবে মুছুন</button>
+        <div style="height:10px"></div>
+        <button class="cp-btn" style="background:linear-gradient(135deg,#1a4a6b,#0d2d42);color:#7ec8f4;border:none;" onclick="downloadHTML()">⬇️ আপডেটেড HTML ডাউনলোড করুন</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div id="toast"></div>
+
+<div id="overlay" onclick="overlayClick(event)">
+  <div id="sheet">
+    <div id="sheetContent"></div>
+  </div>
+</div>
+
+<script>
+// ═══════ DATA ═══════
+const DATA = {
+  id:"jarif_sheikh", name:"জারিফ শেখ", gen:0,
+  children:[
+    { id:"afsar_uddin", name:"আফসার উদ্দিন", gen:1, children:[
+      { id:"jamal_sheikh", name:"জামাল শেখ", gen:2, children:[
+        { id:"mufazzol_hossain", name:"মুফাজ্জল হোসেন", gen:3, children:[
+          { id:"maruf_sheikh",   name:"মারুফ শেখ",   gen:4, children:[] },
+          { id:"mashuk_hossain", name:"মাশুক হোসেন", gen:4, children:[] },
+          { id:"mahfuz",         name:"মাহফুজ",       gen:4, children:[] },
+          { id:"munni",          name:"মুন্নি",        gen:4, children:[] }
+        ]},
+        { id:"tofazzal_hossain", name:"তোফাজ্জল হোসেন", gen:3, children:[
+          { id:"tuya",     name:"তুয়া",     gen:4, children:[] },
+          { id:"tuba",     name:"তুবা",     gen:4, children:[] },
+          { id:"muhammad", name:"মুহাম্মদ", gen:4, children:[] }
+        ]},
+        { id:"shah_jahan", name:"শাহ জাহান", gen:3, children:[
+          { id:"mezbah", name:"মেজবাহ", gen:4, children:[] }
+        ]},
+        { id:"enayet_hossain", name:"এনায়েত হোসেন", gen:3, children:[
+          { id:"zahid_hasan_zihan", name:"জাহিদ হাসান জিহান", gen:4, children:[] }
+        ]}
+      ]},
+      { id:"shohor_ali", name:"শহর আলী", gen:2, children:[
+        { id:"sharaf_uddin", name:"শরাফ উদ্দিন", gen:3, children:[
+          { id:"eyyuhan", name:"আইয়ুহান", gen:4, children:[] },
+          { id:"walid",   name:"ওয়ালিদ",  gen:4, children:[] }
+        ]},
+        { id:"bodrul_islam", name:"বদরুল ইসলাম (বাদল)", gen:3, children:[
+          { id:"fahim", name:"ফাহিম", gen:4, children:[] },
+          { id:"fuhad", name:"ফুহাদ", gen:4, children:[] }
+        ]}
+      ]},
+      { id:"abdus_subohan", name:"আব্দুস সুবহান", gen:2, children:[
+        { id:"abdus_salam", name:"আব্দুস সালাম", gen:3, children:[
+          { id:"sojeeb_sheikh",     name:"সজীব শেখ",         gen:4, children:[] },
+          { id:"abdullah_al_abrar", name:"আব্দুল্লাহ আল আবরার", gen:4, children:[] }
+        ]},
+        { id:"abul_kalam_azad", name:"আবুল কালাম আজাদ", gen:3, notes:"পুত্র নেই",   children:[] },
+        { id:"abdul_aziz",      name:"আব্দুল আজিজ",     gen:3, notes:"অবিবাহিত", children:[] }
+      ]},
+      { id:"lal_mia",    name:"লাল মিয়া",   gen:2, notes:"পুত্র নেই", children:[] },
+      { id:"abdul_goni", name:"আব্দুল গনি", gen:2, children:[
+        { id:"zohir_rayhan", name:"জহির রায়হান", gen:3, children:[
+          { id:"safiul_ahad", name:"সাফিউল আহাদ", gen:4, children:[] }
+        ]}
+      ]}
+    ]},
+    { id:"akkas_ali", name:"আক্কাস আলী", gen:1, children:[
+      { id:"abdur_rahman", name:"আব্দুর রহমান", gen:2, children:[
+        { id:"josmot_ali", name:"জসমত আলী", gen:3, children:[
+          { id:"kaiyum", name:"কাইয়ুম", gen:4, children:[
+            { id:"kawsar", name:"কাওসার", gen:5, children:[] }
+          ]},
+          { id:"haiyul", name:"হাইয়ুল", gen:4, notes:"বিস্মৃত", children:[] },
+          { id:"hannan", name:"হান্নান", gen:4, children:[] },
+          { id:"mannan", name:"মান্নান", gen:4, children:[] }
+        ]},
+        { id:"poshor_ali", name:"পশর আলী", gen:3, children:[
+          { id:"anarul", name:"আনারুল", gen:4, children:[
+            { id:"lamim", name:"লামিম", gen:5, children:[] }
+          ]},
+          { id:"ashraful", name:"আশরাফুল", gen:4, notes:"অকালমৃত্যু", children:[] }
+        ]}
+      ]}
+    ]},
+    { id:"mohor_ali", name:"মহর আলী", gen:1, children:[
+      { id:"nizam_uddin", name:"নিজাম উদ্দিন", gen:2, children:[
+        { id:"shoheed", name:"শহীদ", gen:3, children:[
+          { id:"rafi", name:"রাফি", gen:4, children:[] }
+        ]},
+        { id:"rofiq", name:"রফিক", gen:3, children:[
+          { id:"ovi",        name:"অভি",       gen:4, children:[] },
+          { id:"amir_hamja", name:"আমির হামজা", gen:4, children:[] }
+        ]},
+        { id:"faruk", name:"ফারুক", gen:3, children:[
+          { id:"umayeer", name:"উমায়ের", gen:4, children:[] }
+        ]}
+      ]}
+    ]},
+    { id:"amir_hossain", name:"আমির হোসেন", gen:1, children:[
+      { id:"abdul_hamid", name:"আব্দুল হামিদ", gen:2, children:[] },
+      { id:"suruj_ali",   name:"সুরুজ আলী",   gen:2, children:[] },
+      { id:"liyakot_ali", name:"লিয়াকত আলী",  gen:2, children:[] }
+    ]}
+  ]
+};
+
+// ═══════ INDEX ═══════
+const nodes = {};
+const collapsed = new Set();
+let results = [], resultIdx = 0;
+
+function index(node, pid) {
+  nodes[node.id] = { ...node, pid };
+  (node.children||[]).forEach(c => index(c, node.id));
+}
+index(DATA, null);
+
+const GEN = ['মূল পূর্বপুরুষ','২য় প্রজন্ম','৩য় প্রজন্ম','৪র্থ প্রজন্ম','৫ম প্রজন্ম','৬ষ্ঠ প্রজন্ম','৭ম প্রজন্ম'];
+
+// ═══════ BUILD ═══════
+function makeItem(node, depth) {
+  const hasKids = node.children && node.children.length > 0;
+  const isRoot = depth === 0;
+  const isCol = collapsed.has(node.id);
+
+  const li = document.createElement('li');
+  li.className = `tree-item depth-${depth}`;
+  li.dataset.id = node.id;
+
+  // Row
+  const row = document.createElement('div');
+  row.className = 'item-row';
+
+  // Toggle / spacer
+  if (hasKids) {
+    const t = document.createElement('button');
+    t.className = 'toggle-btn' + (isCol ? '' : ' expanded');
+    t.textContent = '+';
+    t.onclick = e => { e.stopPropagation(); toggle(node.id); };
+    row.appendChild(t);
+  } else {
+    const sp = document.createElement('div');
+    sp.className = 'toggle-spacer';
+    row.appendChild(sp);
+  }
+
+  // Card
+  const card = document.createElement('div');
+  card.className = 'item-card' + (isRoot ? ' root-card' : '');
+  card.dataset.id = node.id;
+
+  const name = document.createElement('span');
+  name.className = 'item-name';
+  name.textContent = node.name;
+  card.appendChild(name);
+
+  if (node.notes) {
+    const nt = document.createElement('span');
+    nt.className = 'notes-tag';
+    nt.textContent = node.notes;
+    card.appendChild(nt);
+  } else {
+    const badge = document.createElement('span');
+    badge.className = 'item-badge';
+    badge.textContent = isRoot ? 'পূর্বপুরুষ' : (hasKids ? node.children.length + (node.children.length>1?' সন্তান':' সন্তান') : (GEN[depth]||'প্রজন্ম '+(depth+1)));
+    card.appendChild(badge);
+  }
+
+  const ib = document.createElement('button');
+  ib.className = 'info-btn';
+  ib.textContent = 'ⓘ';
+  ib.title = 'বিস্তারিত';
+  ib.onclick = e => { e.stopPropagation(); showSheet(node.id); };
+  card.appendChild(ib);
+
+  row.appendChild(card);
+  li.appendChild(row);
+
+  // Children UL
+  if (hasKids) {
+    const ul = document.createElement('ul');
+    ul.className = 'item-children' + (isCol ? ' collapsed' : '');
+    ul.id = 'k_' + node.id;
+    const inner = document.createElement('div');
+    inner.className = 'children-inner';
+    node.children.forEach(c => inner.appendChild(makeItem(c, depth + 1)));
+    ul.appendChild(inner);
+    li.appendChild(ul);
+  }
+
+  return li;
+}
+
+function render() {
+  const root = document.getElementById('treeRoot');
+  root.innerHTML = '';
+  root.appendChild(makeItem(DATA, 0));
+  applySearch();
+}
+
+// ═══════ TOGGLE ═══════
+function toggle(id) {
+  if (collapsed.has(id)) collapsed.delete(id); else collapsed.add(id);
+  const li = document.querySelector(`.tree-item[data-id="${id}"]`);
+  if (!li) return;
+  const ul = document.getElementById('k_' + id);
+  const t  = li.querySelector(':scope > .item-row > .toggle-btn');
+  const isNowCollapsed = collapsed.has(id);
+  if (ul) ul.classList.toggle('collapsed', isNowCollapsed);
+  if (t)  t.classList.toggle('expanded', !isNowCollapsed);
+}
+
+function expandAll() { collapsed.clear(); render(); }
+
+function collapseAll() {
+  Object.keys(nodes).forEach(id => {
+    if (nodes[id].children && nodes[id].children.length) collapsed.add(id);
+  });
+  render();
+}
+
+function expandToDepth(max) {
+  Object.keys(nodes).forEach(id => {
+    if (nodes[id].children && nodes[id].children.length) collapsed.add(id);
+  });
+  function open(node, d) {
+    if (d <= max && node.children && node.children.length) {
+      collapsed.delete(node.id);
+      node.children.forEach(c => open(c, d+1));
+    }
+  }
+  open(DATA, 0);
+  render();
+}
+
+// ═══════ PROFILE CARD ═══════
+const DEMO_IMG = 'https://i.ibb.co/Qv2FpSMP/image.png';
+
+// Extra details (job, address) per person id — extend as needed
+const EXTRA = {
+  jarif_sheikh:     { job: 'কৃষক',              address: 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ' },
+  afsar_uddin:      { job: 'কৃষক',              address: 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ' },
+  akkas_ali:        { job: 'কৃষক',              address: 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ' },
+  mohor_ali:        { job: 'কৃষক',              address: 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ' },
+  amir_hossain:     { job: 'কৃষক',              address: 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ' },
+  jamal_sheikh:     { job: 'ব্যবসায়ী',           address: 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ' },
+  shohor_ali:       { job: 'কৃষক',              address: 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ' },
+  abdus_subohan:    { job: 'কৃষক',              address: 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ' },
+  mufazzol_hossain: { job: 'ব্যবসায়ী',           address: 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ' },
+  tofazzal_hossain: { job: 'চাকরিজীবী',          address: 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ' },
+  shah_jahan:       { job: 'ব্যবসায়ী',           address: 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ' },
+  enayet_hossain:   { job: 'কৃষক',              address: 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ' },
+  nizam_uddin:      { job: 'চাকরিজীবী',          address: 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ' },
+  abdur_rahman:     { job: 'ব্যবসায়ী',           address: 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ' },
+};
+
+function getGenColor(gen) {
+  return ['#e8c96a','#f4a56a','#5ee8d8','#97b4f0','#f592c4','#b8e85a'][gen] || '#e8c96a';
+}
+
+function showSheet(id) {
+  const n = nodes[id]; if (!n) return;
+  const par = n.pid ? nodes[n.pid] : null;
+  const grandpar = par && par.pid ? nodes[par.pid] : null;
+  const kids = n.children || [];
+  const extra = EXTRA[id] || {};
+  const genColor = getGenColor(n.gen);
+
+  const h = `
+    <button class="profile-close" onclick="closeSheet()">✕</button>
+
+    <!-- Hero -->
+    <div class="profile-hero gen-hero-${n.gen}">
+      <img class="profile-hero-img" src="${DEMO_IMG}" alt="${n.name}" onerror="this.style.display='none'">
+      <div class="profile-hero-overlay"></div>
+      <span class="profile-gen-badge gen-badge-${n.gen}">${GEN[n.gen] || ('প্রজন্ম ' + (n.gen + 1))}</span>
+      <div class="profile-avatar-wrap">
+        <img src="${DEMO_IMG}" alt="${n.name}" onerror="this.style.opacity='0'">
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="profile-body">
+
+      <div class="profile-name">${n.name}</div>
+      <div class="profile-sub">${extra.address || 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ'}</div>
+
+      ${n.notes ? `<div class="profile-note">📌 ${n.notes}</div>` : ''}
+
+      <!-- Personal Info -->
+      <div class="profile-section-title">ব্যক্তিগত তথ্য</div>
+      <div class="profile-info-grid">
+        ${extra.gender ? `
+        <div class="profile-info-box">
+          <div class="pib-label">লিঙ্গ</div>
+          <div class="pib-value">${extra.gender === 'পুরুষ' ? '👨 পুরুষ' : '👩 মহিলা'}</div>
+        </div>` : ''}
+        ${extra.dob ? `
+        <div class="profile-info-box">
+          <div class="pib-label">জন্ম তারিখ</div>
+          <div class="pib-value">🎂 ${extra.dob}</div>
+        </div>` : ''}
+        <div class="profile-info-box">
+          <div class="pib-label">পেশা</div>
+          <div class="pib-value">${extra.job || 'অজানা'}</div>
+        </div>
+        <div class="profile-info-box">
+          <div class="pib-label">প্রজন্ম</div>
+          <div class="pib-value gold">${GEN[n.gen] || 'প্রজন্ম ' + (n.gen + 1)}</div>
+        </div>
+        ${par ? `
+        <div class="profile-info-box">
+          <div class="pib-label">পিতার নাম</div>
+          <div class="pib-value" style="cursor:pointer;color:${genColor}" onclick="closeSheet();showSheet('${par.id}')">${par.name}</div>
+        </div>` : ''}
+        ${extra.mother ? `
+        <div class="profile-info-box">
+          <div class="pib-label">মাতার নাম</div>
+          <div class="pib-value" style="color:#f592c4">${extra.mother}</div>
+        </div>` : ''}
+        ${grandpar ? `
+        <div class="profile-info-box">
+          <div class="pib-label">দাদা / নানা</div>
+          <div class="pib-value" style="cursor:pointer;color:var(--text-muted)" onclick="closeSheet();showSheet('${grandpar.id}')">${grandpar.name}</div>
+        </div>` : ''}
+        <div class="profile-info-box full">
+          <div class="pib-label">ঠিকানা</div>
+          <div class="pib-value">📍 ${extra.address || 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ'}</div>
+        </div>
+      </div>
+
+      ${(extra.marital) ? `
+      <div class="profile-section-title">বিবাহ তথ্য</div>
+      <div class="profile-info-grid">
+        <div class="profile-info-box">
+          <div class="pib-label">বৈবাহিক অবস্থা</div>
+          <div class="pib-value" style="color:${extra.marital==='বিবাহিত'?'#b8e85a':extra.marital==='অবিবাহিত'?'#7ec8f4':'#f4a56a'}">${extra.marital==='বিবাহিত'?'💍 বিবাহিত':extra.marital==='অবিবাহিত'?'🔵 অবিবাহিত':'🕊️ '+extra.marital}</div>
+        </div>
+        ${extra.wife ? `<div class="profile-info-box"><div class="pib-label">স্ত্রীর নাম</div><div class="pib-value" style="color:#f592c4">💑 ${extra.wife}</div></div>` : ''}
+        ${extra.wdate ? `<div class="profile-info-box"><div class="pib-label">বিবাহের তারিখ</div><div class="pib-value">📅 ${extra.wdate}</div></div>` : ''}
+      </div>` : ''}
+
+      <!-- Children -->
+      <div class="profile-section-title">সন্তানগণ (${kids.length} জন)</div>
+      ${kids.length > 0 ? `
+      <div class="children-grid">
+        ${kids.map(c => `
+          <div class="child-card" onclick="closeSheet();showSheet('${c.id}')">
+            <div class="child-card-avatar">
+              <img src="${DEMO_IMG}" alt="${c.name}" onerror="this.style.opacity='0'">
+            </div>
+            <div class="child-card-name">${c.name}</div>
+          </div>
+        `).join('')}
+      </div>` : `<div class="pib-value muted" style="padding:4px 0">কোনো সন্তান নেই</div>`}
+
+    </div>
+  `;
+
+  document.getElementById('sheetContent').innerHTML = h;
+  document.getElementById('overlay').classList.add('open');
+}
+function closeSheet() { document.getElementById('overlay').classList.remove('open'); }
+function overlayClick(e) { if (e.target === document.getElementById('overlay')) closeSheet(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+
+// ═══════ SEARCH ═══════
+function applySearch() {
+  document.querySelectorAll('.item-card.highlighted').forEach(el => el.classList.remove('highlighted'));
+  results.forEach(id => {
+    const el = document.querySelector(`.item-card[data-id="${id}"]`);
+    if (el) el.classList.add('highlighted');
+  });
+}
+
+function expandTo(id) {
+  let n = nodes[id];
+  while (n.pid) { collapsed.delete(n.pid); n = nodes[n.pid]; }
+}
+
+function scrollTo() {
+  if (!results.length) return;
+  const id = results[resultIdx % results.length];
+  expandTo(id);
+  render();
+  setTimeout(() => {
+    const el = document.querySelector(`.item-card[data-id="${id}"]`);
+    if (el) el.scrollIntoView({ behavior:'smooth', block:'center' });
+  }, 80);
+}
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  const cnt = document.getElementById('searchCount');
+  results = [];
+  if (!q) { cnt.style.display='none'; document.querySelectorAll('.item-card.highlighted').forEach(e=>e.classList.remove('highlighted')); return; }
+  Object.values(nodes).forEach(n => { if (n.name.toLowerCase().includes(q)) results.push(n.id); });
+  resultIdx = 0;
+  cnt.textContent = results.length || '0';
+  cnt.style.display = 'inline';
+  if (results.length) scrollTo();
+  else document.querySelectorAll('.item-card.highlighted').forEach(e=>e.classList.remove('highlighted'));
+});
+
+document.getElementById('searchInput').addEventListener('keydown', function(e) {
+  if (e.key==='Enter' && results.length) { resultIdx=(resultIdx+1)%results.length; scrollTo(); }
+});
+
+// ═══════ CONTROL PANEL ═══════
+const GEN_COLORS = ['#e8c96a','#f4a56a','#5ee8d8','#97b4f0','#f592c4','#b8e85a'];
+let selectedParentId = null;
+let selectedEditId   = null;
+let selectedRemoveId = null;
+
+function openCP() {
+  document.getElementById('cp-overlay').classList.add('open');
+  document.getElementById('cp-drawer').classList.add('open');
+  switchTab('add');
+  // Set default address on add form
+  const addrEl = document.getElementById('add-address');
+  if (addrEl && !addrEl.value) addrEl.value = 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ';
+}
+function closeCP() {
+  document.getElementById('cp-overlay').classList.remove('open');
+  document.getElementById('cp-drawer').classList.remove('open');
+}
+
+function toggleAddMarriage(val) {
+  document.getElementById('add-marriage-fields').style.display = val === 'বিবাহিত' ? 'block' : 'none';
+}
+function toggleEditMarriage(val) {
+  document.getElementById('edit-marriage-fields').style.display = val === 'বিবাহিত' ? 'block' : 'none';
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.cp-tab').forEach((t,i) => {
+    t.classList.toggle('active', ['add','edit','remove'][i] === tab);
+  });
+  document.querySelectorAll('.cp-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (tab === 'add')    { selectedParentId = null; filterParentList(''); }
+  if (tab === 'edit')   { selectedEditId   = null; filterEditList(''); document.getElementById('edit-form').style.display='none'; }
+  if (tab === 'remove') { selectedRemoveId = null; filterRemoveList(''); document.getElementById('remove-confirm').style.display='none'; }
+}
+
+// ── Helpers ──
+function genDepth(id) {
+  let d = 0, n = nodes[id];
+  while (n.pid) { d++; n = nodes[n.pid]; }
+  return d;
+}
+function genColor(id) { return GEN_COLORS[Math.min(genDepth(id), GEN_COLORS.length-1)]; }
+
+function buildMemberRow(id, clickFn, selectedId) {
+  const n = nodes[id];
+  const depth = genDepth(id);
+  const row = document.createElement('div');
+  row.className = 'cp-member-row' + (id === selectedId ? ' selected' : '');
+  row.innerHTML = `
+    <div class="cp-member-dot" style="background:${GEN_COLORS[Math.min(depth,5)]}"></div>
+    <span class="cp-member-name">${n.name}</span>
+    <span class="cp-member-gen">${GEN[depth]||''}</span>`;
+  row.onclick = () => clickFn(id, row);
+  return row;
+}
+
+function getMembersSorted() {
+  return Object.keys(nodes).sort((a,b) => nodes[a].name.localeCompare(nodes[b].name, 'bn'));
+}
+
+// ── ADD TAB ──
+function filterParentList(q) {
+  const list = document.getElementById('add-parent-list');
+  list.innerHTML = '';
+  selectedParentId = null;
+  document.getElementById('add-parent-id').value = '';
+  const ids = getMembersSorted().filter(id =>
+    !q.trim() || nodes[id].name.includes(q.trim())
+  );
+  if (!ids.length) { list.innerHTML = '<div class="cp-empty">কোনো ফলাফল নেই</div>'; return; }
+  ids.forEach(id => {
+    list.appendChild(buildMemberRow(id, (sid, rowEl) => {
+      selectedParentId = sid;
+      document.getElementById('add-parent-id').value = sid;
+      list.querySelectorAll('.cp-member-row').forEach(r => r.classList.remove('selected'));
+      rowEl.classList.add('selected');
+    }, selectedParentId));
+  });
+}
+
+function makeUniqueId(name) {
+  const base = name.replace(/\s+/g,'_').replace(/[^\u0980-\u09FFa-z0-9_]/gi,'').toLowerCase() || 'member';
+  let id = base, i = 1;
+  while (nodes[id]) { id = base + '_' + i++; }
+  return id;
+}
+
+function findNodeInTree(treeNode, id) {
+  if (treeNode.id === id) return treeNode;
+  for (const c of (treeNode.children||[])) {
+    const found = findNodeInTree(c, id);
+    if (found) return found;
+  }
+  return null;
+}
+
+function addMember() {
+  const name    = document.getElementById('add-name').value.trim();
+  const pid     = document.getElementById('add-parent-id').value;
+  const gender  = document.getElementById('add-gender').value.trim();
+  const dob     = document.getElementById('add-dob').value.trim();
+  const mother  = document.getElementById('add-mother').value.trim();
+  const job     = document.getElementById('add-job').value.trim();
+  const addr    = document.getElementById('add-address').value.trim();
+  const notes   = document.getElementById('add-notes').value.trim();
+  const marital = document.getElementById('add-marital').value.trim();
+  const wife    = document.getElementById('add-wife') ? document.getElementById('add-wife').value.trim() : '';
+  const wdate   = document.getElementById('add-wdate') ? document.getElementById('add-wdate').value.trim() : '';
+
+  if (!name) { showToast('❌ নাম লিখুন', 'error'); return; }
+  if (!pid)  { showToast('❌ পিতা/অভিভাবক নির্বাচন করুন', 'error'); return; }
+
+  const id = makeUniqueId(name);
+  const parentDepth = genDepth(pid);
+  const newNode = { id, name, gen: parentDepth + 1, children: [] };
+  if (notes) newNode.notes = notes;
+
+  // Add to tree data
+  const parentInTree = findNodeInTree(DATA, pid);
+  if (!parentInTree) { showToast('❌ পিতা খুঁজে পাওয়া যায়নি', 'error'); return; }
+  parentInTree.children.push(newNode);
+
+  // Add to nodes index
+  nodes[id] = { ...newNode, pid };
+
+  // Auto-fill mother from parent's wife if not provided
+  const parentExtra = EXTRA[pid] || {};
+  const autoMother = mother || (parentExtra.wife || '');
+
+  // Add to EXTRA
+  EXTRA[id] = {
+    job: job || 'অজানা',
+    address: addr || 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ',
+    ...(gender  && { gender }),
+    ...(dob     && { dob }),
+    ...(autoMother && { mother: autoMother }),
+    ...(marital && { marital }),
+    ...(marital === 'বিবাহিত' && wife  && { wife }),
+    ...(marital === 'বিবাহিত' && wdate && { wdate }),
+  };
+
+  // Reset form
+  ['add-name','add-dob','add-mother','add-job','add-notes','add-wife','add-wdate'].forEach(f => {
+    const el = document.getElementById(f); if (el) el.value = '';
+  });
+  document.getElementById('add-gender').value = '';
+  document.getElementById('add-marital').value = '';
+  document.getElementById('add-address').value = 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ';
+  document.getElementById('add-marriage-fields').style.display = 'none';
+  document.getElementById('add-parent-search').value = '';
+  selectedParentId = null;
+  filterParentList('');
+
+  render();
+  showToast(`✅ ${name} যোগ করা হয়েছে`, 'success');
+}
+
+// ── EDIT TAB ──
+function filterEditList(q) {
+  const list = document.getElementById('edit-member-list');
+  list.innerHTML = '';
+  const ids = getMembersSorted().filter(id =>
+    !q.trim() || nodes[id].name.includes(q.trim())
+  );
+  if (!ids.length) { list.innerHTML = '<div class="cp-empty">কোনো ফলাফল নেই</div>'; return; }
+  ids.forEach(id => {
+    list.appendChild(buildMemberRow(id, (sid, rowEl) => {
+      selectedEditId = sid;
+      list.querySelectorAll('.cp-member-row').forEach(r => r.classList.remove('selected'));
+      rowEl.classList.add('selected');
+      loadEditForm(sid);
+    }, selectedEditId));
+  });
+}
+
+function loadEditForm(id) {
+  const n = nodes[id];
+  const ex = EXTRA[id] || {};
+  document.getElementById('edit-id').value = id;
+  document.getElementById('edit-name').value = n.name;
+  document.getElementById('edit-gender').value = ex.gender || '';
+  document.getElementById('edit-dob').value = ex.dob || '';
+  document.getElementById('edit-mother').value = ex.mother || '';
+  document.getElementById('edit-job').value = ex.job || '';
+  document.getElementById('edit-address').value = ex.address || 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ';
+  document.getElementById('edit-marital').value = ex.marital || '';
+  document.getElementById('edit-wife').value = ex.wife || '';
+  document.getElementById('edit-wdate').value = ex.wdate || '';
+  document.getElementById('edit-notes').value = n.notes || '';
+  toggleEditMarriage(ex.marital || '');
+  document.getElementById('edit-form').style.display = 'block';
+}
+
+function saveEdit() {
+  const id      = document.getElementById('edit-id').value;
+  const newName = document.getElementById('edit-name').value.trim();
+  const gender  = document.getElementById('edit-gender').value.trim();
+  const dob     = document.getElementById('edit-dob').value.trim();
+  const mother  = document.getElementById('edit-mother').value.trim();
+  const job     = document.getElementById('edit-job').value.trim();
+  const addr    = document.getElementById('edit-address').value.trim();
+  const notes   = document.getElementById('edit-notes').value.trim();
+  const marital = document.getElementById('edit-marital').value.trim();
+  const wife    = document.getElementById('edit-wife').value.trim();
+  const wdate   = document.getElementById('edit-wdate').value.trim();
+  if (!id || !newName) { showToast('❌ নাম খালি রাখা যাবে না', 'error'); return; }
+
+  // Update in nodes index
+  nodes[id].name = newName;
+  if (notes) nodes[id].notes = notes; else delete nodes[id].notes;
+
+  // Update in DATA tree
+  const n = findNodeInTree(DATA, id);
+  if (n) { n.name = newName; if (notes) n.notes = notes; else delete n.notes; }
+
+  // Update EXTRA
+  EXTRA[id] = {
+    job: job || 'অজানা',
+    address: addr || 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ',
+    ...(gender  && { gender }),
+    ...(dob     && { dob }),
+    ...(mother  && { mother }),
+    ...(marital && { marital }),
+    ...(marital === 'বিবাহিত' && wife  && { wife }),
+    ...(marital === 'বিবাহিত' && wdate && { wdate }),
+  };
+
+  // If wife changed, update mother field for all children
+  if (marital === 'বিবাহিত' && wife) {
+    (nodes[id].children || []).forEach(child => {
+      const childId = child.id || child;
+      if (EXTRA[childId] && !EXTRA[childId]._motherOverridden) {
+        EXTRA[childId].mother = wife;
+      }
+    });
+    // Also update children in nodes
+    Object.values(nodes).forEach(nd => {
+      if (nd.pid === id && EXTRA[nd.id] && !EXTRA[nd.id]._motherOverridden) {
+        EXTRA[nd.id].mother = wife;
+      }
+    });
+  }
+
+  render();
+  filterEditList(document.getElementById('edit-search').value);
+  showToast(`✅ ${newName} আপডেট হয়েছে`, 'success');
+}
+
+// ── REMOVE TAB ──
+function filterRemoveList(q) {
+  const list = document.getElementById('remove-member-list');
+  list.innerHTML = '';
+  document.getElementById('remove-confirm').style.display = 'none';
+  selectedRemoveId = null;
+
+  // Cannot remove root
+  const ids = getMembersSorted().filter(id =>
+    id !== DATA.id && (!q.trim() || nodes[id].name.includes(q.trim()))
+  );
+  if (!ids.length) { list.innerHTML = '<div class="cp-empty">কোনো ফলাফল নেই</div>'; return; }
+  ids.forEach(id => {
+    list.appendChild(buildMemberRow(id, (sid, rowEl) => {
+      selectedRemoveId = sid;
+      list.querySelectorAll('.cp-member-row').forEach(r => r.classList.remove('selected'));
+      rowEl.classList.add('selected');
+      document.getElementById('remove-name-display').textContent = nodes[sid].name;
+      document.getElementById('remove-confirm').style.display = 'block';
+    }, selectedRemoveId));
+  });
+}
+
+function removeNodeFromTree(treeNode, id) {
+  treeNode.children = (treeNode.children||[]).filter(c => c.id !== id);
+  treeNode.children.forEach(c => removeNodeFromTree(c, id));
+}
+
+function removeAllDescendants(id) {
+  const n = nodes[id];
+  (n.children||[]).forEach(c => {
+    removeAllDescendants(c.id);
+    delete nodes[c.id];
+    delete EXTRA[c.id];
+    collapsed.delete(c.id);
+  });
+}
+
+function removeMember() {
+  if (!selectedRemoveId) return;
+  const name = nodes[selectedRemoveId].name;
+
+  // Remove from tree data recursively
+  removeAllDescendants(selectedRemoveId);
+  removeNodeFromTree(DATA, selectedRemoveId);
+  delete nodes[selectedRemoveId];
+  delete EXTRA[selectedRemoveId];
+  collapsed.delete(selectedRemoveId);
+
+  selectedRemoveId = null;
+  document.getElementById('remove-confirm').style.display = 'none';
+  document.getElementById('remove-search').value = '';
+  filterRemoveList('');
+
+  render();
+  showToast(`🗑️ ${name} মুছে ফেলা হয়েছে`, 'success');
+}
+
+// ── TOAST ──
+let toastTimer;
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.className = ''; }, 2800);
+}
+
+// ── DOWNLOAD ──
+function downloadHTML() {
+  const dataStr  = JSON.stringify(DATA,  null, 2);
+  const extraStr = JSON.stringify(EXTRA, null, 2);
+
+  // Build a clean standalone viewer HTML from scratch — no regex, no outerHTML
+  const out = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>শেখ পরিবার</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+` + document.querySelector('style').textContent + `
 </style>
 </head>
 <body>
@@ -811,385 +2118,7 @@ html, body { height: 100%; font-family: 'Hind Siliguri', sans-serif; background:
 </div>
 <script>
 // ═══════ DATA ═══════
-const DATA = {
-  "id": "jarif_sheikh",
-  "name": "জারিফ শেখ",
-  "gen": 0,
-  "children": [
-    {
-      "id": "afsar_uddin",
-      "name": "আফসার উদ্দিন",
-      "gen": 1,
-      "children": [
-        {
-          "id": "jamal_sheikh",
-          "name": "জামাল শেখ",
-          "gen": 2,
-          "children": [
-            {
-              "id": "mufazzol_hossain",
-              "name": "মুফাজ্জল হোসেন",
-              "gen": 3,
-              "children": [
-                {
-                  "id": "maruf_sheikh",
-                  "name": "মারুফ শেখ",
-                  "gen": 4,
-                  "children": []
-                },
-                {
-                  "id": "mashuk_hossain",
-                  "name": "মাশুক হোসেন",
-                  "gen": 4,
-                  "children": []
-                },
-                {
-                  "id": "mahfuz",
-                  "name": "মাহফুজ",
-                  "gen": 4,
-                  "children": []
-                },
-                {
-                  "id": "munni",
-                  "name": "মুন্নি",
-                  "gen": 4,
-                  "children": []
-                }
-              ]
-            },
-            {
-              "id": "tofazzal_hossain",
-              "name": "তোফাজ্জল হোসেন",
-              "gen": 3,
-              "children": [
-                {
-                  "id": "tuya",
-                  "name": "তুয়া",
-                  "gen": 4,
-                  "children": []
-                },
-                {
-                  "id": "tuba",
-                  "name": "তুবা",
-                  "gen": 4,
-                  "children": []
-                },
-                {
-                  "id": "muhammad",
-                  "name": "মুহাম্মদ",
-                  "gen": 4,
-                  "children": []
-                }
-              ]
-            },
-            {
-              "id": "shah_jahan",
-              "name": "শাহ জাহান",
-              "gen": 3,
-              "children": [
-                {
-                  "id": "mezbah",
-                  "name": "মেজবাহ",
-                  "gen": 4,
-                  "children": []
-                }
-              ]
-            },
-            {
-              "id": "enayet_hossain",
-              "name": "এনায়েত হোসেন",
-              "gen": 3,
-              "children": [
-                {
-                  "id": "zahid_hasan_zihan",
-                  "name": "জাহিদ হাসান জিহান",
-                  "gen": 4,
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "shohor_ali",
-          "name": "শহর আলী",
-          "gen": 2,
-          "children": [
-            {
-              "id": "sharaf_uddin",
-              "name": "শরাফ উদ্দিন",
-              "gen": 3,
-              "children": [
-                {
-                  "id": "eyyuhan",
-                  "name": "আইয়ুহান",
-                  "gen": 4,
-                  "children": []
-                },
-                {
-                  "id": "walid",
-                  "name": "ওয়ালিদ",
-                  "gen": 4,
-                  "children": []
-                }
-              ]
-            },
-            {
-              "id": "bodrul_islam",
-              "name": "বদরুল ইসলাম (বাদল)",
-              "gen": 3,
-              "children": [
-                {
-                  "id": "fahim",
-                  "name": "ফাহিম",
-                  "gen": 4,
-                  "children": []
-                },
-                {
-                  "id": "fuhad",
-                  "name": "ফুহাদ",
-                  "gen": 4,
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "abdus_subohan",
-          "name": "আব্দুস সুবহান",
-          "gen": 2,
-          "children": [
-            {
-              "id": "abdus_salam",
-              "name": "আব্দুস সালাম",
-              "gen": 3,
-              "children": [
-                {
-                  "id": "sojeeb_sheikh",
-                  "name": "সজীব শেখ",
-                  "gen": 4,
-                  "children": []
-                },
-                {
-                  "id": "abdullah_al_abrar",
-                  "name": "আব্দুল্লাহ আল আবরার",
-                  "gen": 4,
-                  "children": []
-                }
-              ]
-            },
-            {
-              "id": "abul_kalam_azad",
-              "name": "আবুল কালাম আজাদ",
-              "gen": 3,
-              "notes": "পুত্র নেই",
-              "children": []
-            },
-            {
-              "id": "abdul_aziz",
-              "name": "আব্দুল আজিজ",
-              "gen": 3,
-              "notes": "অবিবাহিত",
-              "children": []
-            }
-          ]
-        },
-        {
-          "id": "lal_mia",
-          "name": "লাল মিয়া",
-          "gen": 2,
-          "notes": "পুত্র নেই",
-          "children": []
-        },
-        {
-          "id": "abdul_goni",
-          "name": "আব্দুল গনি",
-          "gen": 2,
-          "children": [
-            {
-              "id": "zohir_rayhan",
-              "name": "জহির রায়হান",
-              "gen": 3,
-              "children": [
-                {
-                  "id": "safiul_ahad",
-                  "name": "সাফিউল আহাদ",
-                  "gen": 4,
-                  "children": []
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "akkas_ali",
-      "name": "আক্কাস আলী",
-      "gen": 1,
-      "children": [
-        {
-          "id": "abdur_rahman",
-          "name": "আব্দুর রহমান",
-          "gen": 2,
-          "children": [
-            {
-              "id": "josmot_ali",
-              "name": "জসমত আলী",
-              "gen": 3,
-              "children": [
-                {
-                  "id": "kaiyum",
-                  "name": "কাইয়ুম",
-                  "gen": 4,
-                  "children": [
-                    {
-                      "id": "kawsar",
-                      "name": "কাওসার",
-                      "gen": 5,
-                      "children": []
-                    }
-                  ]
-                },
-                {
-                  "id": "haiyul",
-                  "name": "হাইয়ুল",
-                  "gen": 4,
-                  "notes": "বিস্মৃত",
-                  "children": []
-                },
-                {
-                  "id": "hannan",
-                  "name": "হান্নান",
-                  "gen": 4,
-                  "children": []
-                },
-                {
-                  "id": "mannan",
-                  "name": "মান্নান",
-                  "gen": 4,
-                  "children": []
-                }
-              ]
-            },
-            {
-              "id": "poshor_ali",
-              "name": "পশর আলী",
-              "gen": 3,
-              "children": [
-                {
-                  "id": "anarul",
-                  "name": "আনারুল",
-                  "gen": 4,
-                  "children": [
-                    {
-                      "id": "lamim",
-                      "name": "লামিম",
-                      "gen": 5,
-                      "children": []
-                    }
-                  ]
-                },
-                {
-                  "id": "ashraful",
-                  "name": "আশরাফুল",
-                  "gen": 4,
-                  "notes": "অকালমৃত্যু",
-                  "children": []
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "mohor_ali",
-      "name": "মহর আলী",
-      "gen": 1,
-      "children": [
-        {
-          "id": "nizam_uddin",
-          "name": "নিজাম উদ্দিন",
-          "gen": 2,
-          "children": [
-            {
-              "id": "shoheed",
-              "name": "শহীদ",
-              "gen": 3,
-              "children": [
-                {
-                  "id": "rafi",
-                  "name": "রাফি",
-                  "gen": 4,
-                  "children": []
-                }
-              ]
-            },
-            {
-              "id": "rofiq",
-              "name": "রফিক",
-              "gen": 3,
-              "children": [
-                {
-                  "id": "ovi",
-                  "name": "অভি",
-                  "gen": 4,
-                  "children": []
-                },
-                {
-                  "id": "amir_hamja",
-                  "name": "আমির হামজা",
-                  "gen": 4,
-                  "children": []
-                }
-              ]
-            },
-            {
-              "id": "faruk",
-              "name": "ফারুক",
-              "gen": 3,
-              "children": [
-                {
-                  "id": "umayeer",
-                  "name": "উমায়ের",
-                  "gen": 4,
-                  "children": []
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "amir_hossain",
-      "name": "আমির হোসেন",
-      "gen": 1,
-      "children": [
-        {
-          "id": "abdul_hamid",
-          "name": "আব্দুল হামিদ",
-          "gen": 2,
-          "children": []
-        },
-        {
-          "id": "suruj_ali",
-          "name": "সুরুজ আলী",
-          "gen": 2,
-          "children": []
-        },
-        {
-          "id": "liyakot_ali",
-          "name": "লিয়াকত আলী",
-          "gen": 2,
-          "children": []
-        }
-      ]
-    }
-  ]
-};
+const DATA = ${dataStr};
 
 // ═══════ INDEX ═══════
 const nodes = {};
@@ -1209,7 +2138,7 @@ function makeItem(node, depth) {
   const isRoot = depth === 0;
   const isCol = collapsed.has(node.id);
   const li = document.createElement('li');
-  li.className = `tree-item depth-${depth}`;
+  li.className = \`tree-item depth-\${depth}\`;
   li.dataset.id = node.id;
   const row = document.createElement('div');
   row.className = 'item-row';
@@ -1273,7 +2202,7 @@ function render() {
 // ═══════ TOGGLE ═══════
 function toggle(id) {
   if (collapsed.has(id)) collapsed.delete(id); else collapsed.add(id);
-  const li = document.querySelector(`.tree-item[data-id="${id}"]`);
+  const li = document.querySelector(\`.tree-item[data-id="\${id}"]\`);
   if (!li) return;
   const ul = document.getElementById('k_' + id);
   const t  = li.querySelector(':scope > .item-row > .toggle-btn');
@@ -1294,64 +2223,7 @@ function expandToDepth(max) {
 
 // ═══════ PROFILE CARD ═══════
 const DEMO_IMG = 'https://i.ibb.co/Qv2FpSMP/image.png';
-const EXTRA = {
-  "jarif_sheikh": {
-    "job": "কৃষক",
-    "address": "গাফারগাঁও, ময়মনসিংহ"
-  },
-  "afsar_uddin": {
-    "job": "কৃষক",
-    "address": "গাফারগাঁও, ময়মনসিংহ"
-  },
-  "akkas_ali": {
-    "job": "কৃষক",
-    "address": "গাফারগাঁও, ময়মনসিংহ"
-  },
-  "mohor_ali": {
-    "job": "কৃষক",
-    "address": "গাফারগাঁও, ময়মনসিংহ"
-  },
-  "amir_hossain": {
-    "job": "কৃষক",
-    "address": "গাফারগাঁও, ময়মনসিংহ"
-  },
-  "jamal_sheikh": {
-    "job": "ব্যবসায়ী",
-    "address": "গাফারগাঁও, ময়মনসিংহ"
-  },
-  "shohor_ali": {
-    "job": "কৃষক",
-    "address": "গাফারগাঁও, ময়মনসিংহ"
-  },
-  "abdus_subohan": {
-    "job": "কৃষক",
-    "address": "গাফারগাঁও, ময়মনসিংহ"
-  },
-  "mufazzol_hossain": {
-    "job": "ব্যবসায়ী",
-    "address": "গাফারগাঁও, ময়মনসিংহ"
-  },
-  "tofazzal_hossain": {
-    "job": "চাকরিজীবী",
-    "address": "গাফারগাঁও, ময়মনসিংহ"
-  },
-  "shah_jahan": {
-    "job": "ব্যবসায়ী",
-    "address": "গাফারগাঁও, ময়মনসিংহ"
-  },
-  "enayet_hossain": {
-    "job": "কৃষক",
-    "address": "গাফারগাঁও, ময়মনসিংহ"
-  },
-  "nizam_uddin": {
-    "job": "চাকরিজীবী",
-    "address": "গাফারগাঁও, ময়মনসিংহ"
-  },
-  "abdur_rahman": {
-    "job": "ব্যবসায়ী",
-    "address": "গাফারগাঁও, ময়মনসিংহ"
-  }
-};
+const EXTRA = ${extraStr};
 
 function getGenColor(gen) { return ['#e8c96a','#f4a56a','#5ee8d8','#97b4f0','#f592c4','#b8e85a'][gen] || '#e8c96a'; }
 
@@ -1362,32 +2234,32 @@ function showSheet(id) {
   const kids = n.children || [];
   const extra = EXTRA[id] || {};
   const genColor = getGenColor(n.gen);
-  const h = `
+  const h = \`
     <button class="profile-close" onclick="closeSheet()">✕</button>
-    <div class="profile-hero gen-hero-${n.gen}">
-      <img class="profile-hero-img" src="${DEMO_IMG}" alt="${n.name}" onerror="this.style.display='none'">
+    <div class="profile-hero gen-hero-\${n.gen}">
+      <img class="profile-hero-img" src="\${DEMO_IMG}" alt="\${n.name}" onerror="this.style.display='none'">
       <div class="profile-hero-overlay"></div>
-      <span class="profile-gen-badge gen-badge-${n.gen}">${GEN[n.gen] || ('প্রজন্ম ' + (n.gen + 1))}</span>
-      <div class="profile-avatar-wrap"><img src="${DEMO_IMG}" alt="${n.name}" onerror="this.style.opacity='0'"></div>
+      <span class="profile-gen-badge gen-badge-\${n.gen}">\${GEN[n.gen] || ('প্রজন্ম ' + (n.gen + 1))}</span>
+      <div class="profile-avatar-wrap"><img src="\${DEMO_IMG}" alt="\${n.name}" onerror="this.style.opacity='0'"></div>
     </div>
     <div class="profile-body">
-      <div class="profile-name">${n.name}</div>
-      <div class="profile-sub">${extra.address || 'গাফারগাঁও, ময়মনসিংহ'}</div>
-      ${n.notes ? `<div class="profile-note">📌 ${n.notes}</div>` : ''}
+      <div class="profile-name">\${n.name}</div>
+      <div class="profile-sub">\${extra.address || 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ'}</div>
+      \${n.notes ? \`<div class="profile-note">📌 \${n.notes}</div>\` : ''}
       <div class="profile-section-title">ব্যক্তিগত তথ্য</div>
       <div class="profile-info-grid">
-        ${extra.gender ? `<div class="profile-info-box"><div class="pib-label">লিঙ্গ</div><div class="pib-value">${extra.gender === 'পুরুষ' ? '👨 পুরুষ' : '👩 মহিলা'}</div></div>` : ''}
-        ${extra.dob ? `<div class="profile-info-box"><div class="pib-label">জন্ম তারিখ</div><div class="pib-value">🎂 ${extra.dob}</div></div>` : ''}
-        <div class="profile-info-box"><div class="pib-label">পেশা</div><div class="pib-value">${extra.job || 'অজানা'}</div></div>
-        <div class="profile-info-box"><div class="pib-label">প্রজন্ম</div><div class="pib-value gold">${GEN[n.gen] || 'প্রজন্ম ' + (n.gen + 1)}</div></div>
-        ${par ? `<div class="profile-info-box"><div class="pib-label">পিতার নাম</div><div class="pib-value" style="cursor:pointer;color:${genColor}" onclick="closeSheet();showSheet('${par.id}')">${par.name}</div></div>` : ''}
-        ${extra.mother ? `<div class="profile-info-box"><div class="pib-label">মাতার নাম</div><div class="pib-value" style="color:#f592c4">${extra.mother}</div></div>` : ''}
-        ${grandpar ? `<div class="profile-info-box"><div class="pib-label">দাদা / নানা</div><div class="pib-value" style="cursor:pointer;color:var(--text-muted)" onclick="closeSheet();showSheet('${grandpar.id}')">${grandpar.name}</div></div>` : ''}
-        <div class="profile-info-box full"><div class="pib-label">ঠিকানা</div><div class="pib-value">📍 ${extra.address || 'গাফারগাঁও, ময়মনসিংহ'}</div></div>
+        \${extra.gender ? \`<div class="profile-info-box"><div class="pib-label">লিঙ্গ</div><div class="pib-value">\${extra.gender === 'পুরুষ' ? '👨 পুরুষ' : '👩 মহিলা'}</div></div>\` : ''}
+        \${extra.dob ? \`<div class="profile-info-box"><div class="pib-label">জন্ম তারিখ</div><div class="pib-value">🎂 \${extra.dob}</div></div>\` : ''}
+        <div class="profile-info-box"><div class="pib-label">পেশা</div><div class="pib-value">\${extra.job || 'অজানা'}</div></div>
+        <div class="profile-info-box"><div class="pib-label">প্রজন্ম</div><div class="pib-value gold">\${GEN[n.gen] || 'প্রজন্ম ' + (n.gen + 1)}</div></div>
+        \${par ? \`<div class="profile-info-box"><div class="pib-label">পিতার নাম</div><div class="pib-value" style="cursor:pointer;color:\${genColor}" onclick="closeSheet();showSheet('\${par.id}')">\${par.name}</div></div>\` : ''}
+        \${extra.mother ? \`<div class="profile-info-box"><div class="pib-label">মাতার নাম</div><div class="pib-value" style="color:#f592c4">\${extra.mother}</div></div>\` : ''}
+        \${grandpar ? \`<div class="profile-info-box"><div class="pib-label">দাদা / নানা</div><div class="pib-value" style="cursor:pointer;color:var(--text-muted)" onclick="closeSheet();showSheet('\${grandpar.id}')">\${grandpar.name}</div></div>\` : ''}
+        <div class="profile-info-box full"><div class="pib-label">ঠিকানা</div><div class="pib-value">📍 \${extra.address || 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ'}</div></div>
       </div>
-      <div class="profile-section-title">সন্তানগণ (${kids.length} জন)</div>
-      ${kids.length > 0 ? `<div class="children-grid">${kids.map(c => `<div class="child-card" onclick="closeSheet();showSheet('${c.id}')"><div class="child-card-avatar"><img src="${DEMO_IMG}" alt="${c.name}" onerror="this.style.opacity='0'"></div><div class="child-card-name">${c.name}</div></div>`).join('')}</div>` : '<div class="pib-value muted" style="padding:4px 0">কোনো সন্তান নেই</div>'}
-    </div>`;
+      <div class="profile-section-title">সন্তানগণ (\${kids.length} জন)</div>
+      \${kids.length > 0 ? \`<div class="children-grid">\${kids.map(c => \`<div class="child-card" onclick="closeSheet();showSheet('\${c.id}')"><div class="child-card-avatar"><img src="\${DEMO_IMG}" alt="\${c.name}" onerror="this.style.opacity='0'"></div><div class="child-card-name">\${c.name}</div></div>\`).join('')}</div>\` : '<div class="pib-value muted" style="padding:4px 0">কোনো সন্তান নেই</div>'}
+    </div>\`;
   document.getElementById('sheetContent').innerHTML = h;
   document.getElementById('overlay').classList.add('open');
 }
@@ -1398,14 +2270,14 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet()
 // ═══════ SEARCH ═══════
 function applySearch() {
   document.querySelectorAll('.item-card.highlighted').forEach(el => el.classList.remove('highlighted'));
-  results.forEach(id => { const el = document.querySelector(`.item-card[data-id="${id}"]`); if (el) el.classList.add('highlighted'); });
+  results.forEach(id => { const el = document.querySelector(\`.item-card[data-id="\${id}"]\`); if (el) el.classList.add('highlighted'); });
 }
 function expandTo(id) { let n = nodes[id]; while (n.pid) { collapsed.delete(n.pid); n = nodes[n.pid]; } }
 function scrollTo() {
   if (!results.length) return;
   const id = results[resultIdx % results.length];
   expandTo(id); render();
-  setTimeout(() => { const el = document.querySelector(`.item-card[data-id="${id}"]`); if (el) el.scrollIntoView({ behavior:'smooth', block:'center' }); }, 80);
+  setTimeout(() => { const el = document.querySelector(\`.item-card[data-id="\${id}"]\`); if (el) el.scrollIntoView({ behavior:'smooth', block:'center' }); }, 80);
 }
 document.getElementById('searchInput').addEventListener('input', function() {
   const q = this.value.toLowerCase().trim();
@@ -1424,6 +2296,222 @@ document.getElementById('searchInput').addEventListener('keydown', function(e) {
 
 // ═══════ INIT ═══════
 Object.keys(nodes).forEach(id => { if (nodes[id].children && nodes[id].children.length) collapsed.add(id); });
+render();
+<\/script>
+</body>
+</html>`;
+
+  const now = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  const stamp = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+  const filename = `sheikh family pdf ${stamp}.html`;
+
+  const blob = new Blob([out], { type: 'text/html;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('⬇️ ডাউনলোড হচ্ছে…', 'success');
+}
+
+// ═══════ PDF DOWNLOAD ═══════
+function downloadPDF() {
+  const btn = document.getElementById('pdf-btn');
+  btn.textContent = '⏳ তৈরি হচ্ছে…';
+  btn.disabled = true;
+
+  // Collect current CSS
+  const css = Array.from(document.styleSheets)
+    .map(s => { try { return Array.from(s.cssRules).map(r => r.cssText).join('\n'); } catch(e){ return ''; } })
+    .join('\n');
+
+  // Build full expanded tree HTML
+  const dataStr  = JSON.stringify(DATA,  null, 2);
+  const extraStr = JSON.stringify(EXTRA, null, 2);
+
+  const printHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>শেখ পরিবার - বংশ তালিকা</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+${css}
+
+/* PDF/Print overrides */
+*, *::before, *::after { box-sizing: border-box; }
+html, body {
+  height: auto !important; overflow: visible !important;
+  background: #0f0e0c !important; color: #f0ead8 !important;
+  font-family: 'Hind Siliguri', sans-serif !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+#app { height: auto !important; overflow: visible !important; display: block !important; }
+#main { overflow: visible !important; height: auto !important; max-height: none !important; flex: none !important; }
+#toolbar, #header, #site-footer { display: none !important; }
+#genbar { display: flex !important; }
+.item-children { display: block !important; grid-template-rows: unset !important; overflow: visible !important; opacity: 1 !important; }
+.item-children.collapsed { display: block !important; grid-template-rows: unset !important; opacity: 1 !important; }
+.children-inner { min-height: unset !important; overflow: visible !important; }
+
+/* PDF title header */
+#pdf-title {
+  text-align: center;
+  padding: 24px 16px 16px;
+  border-bottom: 2px solid #3a3428;
+  margin-bottom: 8px;
+}
+#pdf-title h1 { font-size: 26px; color: #c9a84c; font-weight: 700; margin-bottom: 4px; }
+#pdf-title p  { font-size: 12px; color: #9a8e72; }
+
+@media print {
+  html, body { background: #0f0e0c !important; }
+  @page { size: A4 portrait; margin: 10mm; }
+  .item-children, .item-children.collapsed { display: block !important; opacity: 1 !important; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="pdf-title">
+    <h1>🌿 শেখ পরিবার বংশ তালিকা</h1>
+    <p>গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট, জেলাঃ ময়মনসিংহ</p>
+  </div>
+  <div id="genbar">
+    <div class="genbar-item" style="--gc:#e8c96a"><div class="genbar-dot" style="background:#e8c96a"></div><span>১ম</span></div>
+    <div class="genbar-item" style="--gc:#f4a56a"><div class="genbar-dot" style="background:#f4a56a"></div><span>২য়</span></div>
+    <div class="genbar-item" style="--gc:#5ee8d8"><div class="genbar-dot" style="background:#5ee8d8"></div><span>৩য়</span></div>
+    <div class="genbar-item" style="--gc:#97b4f0"><div class="genbar-dot" style="background:#97b4f0"></div><span>৪র্থ</span></div>
+    <div class="genbar-item" style="--gc:#f592c4"><div class="genbar-dot" style="background:#f592c4"></div><span>৫ম</span></div>
+    <div class="genbar-item" style="--gc:#b8e85a"><div class="genbar-dot" style="background:#b8e85a"></div><span>৬ষ্ঠ</span></div>
+  </div>
+  <div id="main"><ul id="treeRoot" class="tree-list"></ul></div>
+</div>
+<script>
+const DATA = ${dataStr};
+const EXTRA = ${extraStr};
+const nodes = {};
+const collapsed = new Set(); // empty = all expanded
+const GEN = ['মূল পূর্বপুরুষ','২য় প্রজন্ম','৩য় প্রজন্ম','৪র্থ প্রজন্ম','৫ম প্রজন্ম','৬ষ্ঠ প্রজন্ম','৭ম প্রজন্ম'];
+
+function index(node, pid) {
+  nodes[node.id] = { ...node, pid };
+  (node.children||[]).forEach(c => index(c, node.id));
+}
+index(DATA, null);
+
+function makeItem(node, depth) {
+  const hasKids = node.children && node.children.length > 0;
+  const isRoot = depth === 0;
+  const li = document.createElement('li');
+  li.className = 'tree-item depth-' + depth;
+  li.dataset.id = node.id;
+  const row = document.createElement('div');
+  row.className = 'item-row';
+  const sp = document.createElement('div');
+  sp.className = 'toggle-spacer';
+  row.appendChild(sp);
+  const card = document.createElement('div');
+  card.className = 'item-card' + (isRoot ? ' root-card' : '');
+  const name = document.createElement('span');
+  name.className = 'item-name';
+  name.textContent = node.name;
+  card.appendChild(name);
+  if (node.notes) {
+    const nt = document.createElement('span');
+    nt.className = 'notes-tag';
+    nt.textContent = node.notes;
+    card.appendChild(nt);
+  } else {
+    const badge = document.createElement('span');
+    badge.className = 'item-badge';
+    badge.textContent = isRoot ? 'পূর্বপুরুষ' : (hasKids ? node.children.length + ' সন্তান' : (GEN[depth]||'প্রজন্ম '+(depth+1)));
+    card.appendChild(badge);
+  }
+  const ex = EXTRA[node.id] || {};
+  if (ex.marital) {
+    const mt = document.createElement('span');
+    mt.className = 'notes-tag';
+    mt.style.cssText = 'background:rgba(184,232,90,0.12);border-color:rgba(184,232,90,0.3);color:#b8e85a;margin-left:4px;';
+    mt.textContent = ex.marital === 'বিবাহিত' ? (ex.wife ? '💑 ' + ex.wife : '💍 বিবাহিত') : ex.marital;
+    card.appendChild(mt);
+  }
+  row.appendChild(card);
+  li.appendChild(row);
+  if (hasKids) {
+    const ul = document.createElement('ul');
+    ul.className = 'item-children';
+    ul.id = 'k_' + node.id;
+    const inner = document.createElement('div');
+    inner.className = 'children-inner';
+    node.children.forEach(c => inner.appendChild(makeItem(c, depth + 1)));
+    ul.appendChild(inner);
+    li.appendChild(ul);
+  }
+  return li;
+}
+
+const root = document.getElementById('treeRoot');
+root.appendChild(makeItem(DATA, 0));
+
+window.onload = function() {
+  window.print();
+  window.onafterprint = function() { window.close(); };
+};
+<\/script>
+</body>
+</html>`;
+
+  const win = window.open('', '_blank', 'width=900,height=700');
+  if (!win) {
+    showToast('⚠️ পপআপ ব্লক হয়েছে। ব্রাউজারে পপআপ অনুমতি দিন।', 'error');
+    btn.textContent = '📄 PDF ডাউনলোড';
+    btn.disabled = false;
+    return;
+  }
+  win.document.open();
+  win.document.write(printHTML);
+  win.document.close();
+
+  showToast('✅ প্রিন্ট ডায়ালগে "PDF সংরক্ষণ" বেছে নিন', 'success');
+  btn.textContent = '📄 PDF ডাউনলোড';
+  btn.disabled = false;
+}
+
+// ═══════ THEME TOGGLE ═══════
+(function() {
+  const saved = localStorage.getItem('sheikh_theme');
+  if (saved === 'light') {
+    document.body.classList.add('light');
+    document.getElementById('theme-label').textContent = 'ডার্ক';
+    document.querySelector('.theme-icon').textContent = '☀️';
+  }
+})();
+
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light');
+  const label = document.getElementById('theme-label');
+  const icon  = document.querySelector('.theme-icon');
+  if (isLight) {
+    label.textContent = 'ডার্ক';
+    icon.textContent  = '☀️';
+    localStorage.setItem('sheikh_theme', 'light');
+  } else {
+    label.textContent = 'লাইট';
+    icon.textContent  = '🌙';
+    localStorage.setItem('sheikh_theme', 'dark');
+  }
+}
+
+// ═══════ FINAL INIT ═══════
+Object.keys(nodes).forEach(id => {
+  if (nodes[id].children && nodes[id].children.length) collapsed.add(id);
+});
 render();
 </script>
 </body>
