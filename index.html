@@ -357,7 +357,7 @@ html, body { height: 100%; font-family: 'Hind Siliguri', sans-serif; background:
 /* ── SCROLL AREA ── */
 #main {
   flex: 1; overflow-y: auto; overflow-x: hidden;
-  -webkit-overflow-scrolling: touch; padding: 10px 10px 20px;
+  -webkit-overflow-scrolling: touch; padding: 10px 10px 60px;
 }
 
 /* ── TREE ── */
@@ -1237,6 +1237,13 @@ body.light .profile-update-line { color: var(--text-muted); }
 }
 .lm-close:hover { border-color:var(--gold-dim); color:var(--text); }
 .lm-body { flex:1; overflow-y:auto; scrollbar-width:thin; scrollbar-color:var(--border) transparent; }
+.lm-footer {
+  flex-shrink:0; padding:14px 16px 14px;
+  border-top:1px solid var(--border);
+  background:var(--surface2);
+  text-align:center;
+}
+body.light .lm-footer { background:var(--surface2); }
 .lm-section-header {
   display:flex; align-items:center; gap:6px; padding:10px 14px;
   border-bottom:1px solid var(--border); background:var(--surface2);
@@ -1333,29 +1340,29 @@ body.light .lm-header, body.light .lm-section-header { background:var(--surface2
     <div id="events-panel">
       <div id="events-list"></div>
     </div>
-    <div style="padding:14px 16px;border-top:1px solid var(--border);text-align:center;">
-      <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">এই ওয়েব সাইটির নির্মাতা ও সম্পাদক</div>
-      <div class="footer-name">Sojeeb Sheikh</div>
-      <a class="footer-fb" href="https://www.facebook.com/imyoursojeeb" target="_blank">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-        www.facebook.com/imyoursojeeb
+  </div>
+  <div class="lm-footer">
+    <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">এই ওয়েব সাইটির নির্মাতা ও সম্পাদক</div>
+    <div class="footer-name">Sojeeb Sheikh</div>
+    <a class="footer-fb" href="https://www.facebook.com/imyoursojeeb" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      www.facebook.com/imyoursojeeb
+    </a>
+    <div class="footer-divider"></div>
+    <div class="footer-contact-title">সদস্য যোগ করতে, সম্পাদন করতে বা সরাতে যোগাযোগ করুন</div>
+    <div class="footer-links" style="justify-content:center;">
+      <a class="footer-link messenger" href="https://m.me/imyoursojeeb" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.914 1.452 5.51 3.727 7.215V22l3.376-1.85c.9.249 1.852.383 2.897.383 5.523 0 10-4.145 10-9.243C22 6.145 17.523 2 12 2zm1.006 12.43l-2.547-2.718-4.973 2.718 5.467-5.802 2.609 2.718 4.911-2.718-5.467 5.802z"/></svg>
+        Messenger
       </a>
-      <div class="footer-divider"></div>
-      <div class="footer-contact-title">সদস্য যোগ করতে, সম্পাদন করতে বা সরাতে যোগাযোগ করুন</div>
-      <div class="footer-links" style="justify-content:center;">
-        <a class="footer-link messenger" href="https://m.me/imyoursojeeb" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.914 1.452 5.51 3.727 7.215V22l3.376-1.85c.9.249 1.852.383 2.897.383 5.523 0 10-4.145 10-9.243C22 6.145 17.523 2 12 2zm1.006 12.43l-2.547-2.718-4.973 2.718 5.467-5.802 2.609 2.718 4.911-2.718-5.467 5.802z"/></svg>
-          Messenger
-        </a>
-        <a class="footer-link whatsapp" href="https://wa.me/qr/WVTFCXUB67U7C1" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.122 1.532 5.853L0 24l6.335-1.502A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.001-1.366l-.358-.213-3.762.892.907-3.668-.234-.376A9.818 9.818 0 1 1 12 21.818z"/></svg>
-          WhatsApp
-        </a>
-        <a class="footer-link email" href="/cdn-cgi/l/email-protection#27544f424e4c4f54484d42424567404a464e4b0944484a">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          Email
-        </a>
-      </div>
+      <a class="footer-link whatsapp" href="https://wa.me/qr/WVTFCXUB67U7C1" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.122 1.532 5.853L0 24l6.335-1.502A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.001-1.366l-.358-.213-3.762.892.907-3.668-.234-.376A9.818 9.818 0 1 1 12 21.818z"/></svg>
+        WhatsApp
+      </a>
+      <a class="footer-link email" href="/cdn-cgi/l/email-protection#27544f424e4c4f54484d42424567404a464e4b0944484a">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email
+      </a>
     </div>
   </div>
 </div>
@@ -1370,9 +1377,9 @@ body.light .lm-header, body.light .lm-section-header { background:var(--surface2
   <div class="cp-body">
     <!-- Tabs -->
     <div class="cp-tabs">
-      <button class="cp-tab active" onclick="switchTab('add')">➕ যোগ করুন</button>
-      <button class="cp-tab" onclick="switchTab('edit')">✏️ সম্পাদনা</button>
-      <button class="cp-tab" onclick="switchTab('remove')">🗑️ মুছুন</button>
+      <button class="cp-tab active" onclick="switchTab('add')"> যোগ করুন</button>
+      <button class="cp-tab" onclick="switchTab('edit')">সম্পাদনা</button>
+      <button class="cp-tab" onclick="switchTab('remove')">মুছুন</button>
     </div>
 
     <!-- ADD TAB -->
@@ -1454,9 +1461,9 @@ body.light .lm-header, body.light .lm-section-header { background:var(--surface2
         <label class="cp-label">বিশেষ তথ্য / নোট</label>
         <input class="cp-input" id="add-notes" placeholder="যেমন: পুত্র নেই…" type="text">
       </div>
-      <button class="cp-btn cp-btn-add" onclick="addMember()">✅ সদস্য যোগ করুন</button>
+      <button class="cp-btn cp-btn-add" onclick="addMember()"> সদস্য যোগ করুন</button>
       <div style="height:10px"></div>
-      <button class="cp-btn" style="background:linear-gradient(135deg,#1a4a6b,#0d2d42);color:#7ec8f4;border:none;" onclick="downloadHTML()">⬇️ আপডেটেড HTML ডাউনলোড করুন</button>
+      <button class="cp-btn" style="background:linear-gradient(135deg,#1a4a6b,#0d2d42);color:#7ec8f4;border:none;" onclick="downloadHTML()"> আপডেটেড HTML ডাউনলোড করুন</button>
     </div>
 
     <!-- EDIT TAB -->
@@ -1846,7 +1853,7 @@ function showSheet(id) {
     <div class="profile-body">
 
       <div class="profile-name">${n.name}</div>
-      <div class="profile-sub">${extra.address || 'গ্রামঃ কাজিয়াকান্দা, থানাঃ হালুয়াঘাট জেলাঃ ময়মনসিংহ'}</div>
+      <div class="profile-sub">📍 ${extra.address ? extra.address.split(',')[0].replace('গ্রামঃ','').trim() + ', হালুয়াঘাট' : 'কাজিয়াকান্দা, হালুয়াঘাট'}</div>
       ${extra.lastUpdated ? `<div class="profile-update-line">🕐 সর্বশেষ আপডেট: ${extra.lastUpdated}</div>` : ''}
 
       ${n.notes ? `<div class="profile-note">📌 ${n.notes}</div>` : ''}
@@ -2198,7 +2205,7 @@ function saveEdit() {
     ...(gender  && { gender }),
     ...(dob     && { dob }),
     ...(dod     && { dod }),
-    ...(mother  && { mother }),
+    ...(mother  ? { mother } : {}),
     ...(marital && { marital }),
     ...(marital === 'বিবাহিত' && wife  && { wife }),
     ...(marital === 'বিবাহিত' && wdate && { wdate }),
