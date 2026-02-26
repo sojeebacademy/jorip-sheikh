@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sheikh Family Tree</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0e0c;
+    --surface: #1a1814;
+    --surface2: #242018;
+    --border: #3a3428;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --gold-dim: #7a6230;
+    --text: #f0ead8;
+    --text-muted: #9a8e72;
+    --accent: #8b5e3c;
+    --highlight: #f5c842;
+    --shadow: rgba(0,0,0,0.5);
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Ornamental background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(139,94,60,0.08) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .app-wrapper { position: relative; z-index: 1; }
+
+  /* Header */
+  header {
+    padding: 32px 24px 24px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(201,168,76,0.05) 0%, transparent 100%);
+  }
+
+  .header-ornament {
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 8px;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 1px;
+    line-height: 1.1;
+  }
+
+  header p {
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  /* Search */
+  .search-bar {
+    display: flex;
+    justify-content: center;
+    padding: 20px 24px;
+    position: sticky;
+    top: 0;
+    background: rgba(15,14,12,0.95);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .search-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .search-wrapper svg {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold-dim);
+    pointer-events: none;
+  }
+
+  #searchInput {
+    width: 100%;
+    padding: 12px 14px 12px 42px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  #searchInput:focus {
+    border-color: var(--gold-dim);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+  }
+
+  #searchInput::placeholder { color: var(--text-muted); }
+
+  .search-count {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  /* Controls */
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 24px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+
+  .btn:hover {
+    border-color: var(--gold-dim);
+    color: var(--gold);
+    background: var(--surface2);
+  }
+
+  /* Tree Container */
+  .tree-container {
+    padding: 24px 16px 80px;
+    overflow-x: auto;
+  }
+
+  .tree-root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: max-content;
+    margin: 0 auto;
+  }
+
+  /* Node */
+  .node-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .node-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    min-width: 160px;
+    max-width: 200px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    user-select: none;
+  }
+
+  .node-card:hover {
+    border-color: var(--gold-dim);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--shadow);
+  }
+
+  .node-card.root-card {
+    background: linear-gradient(135deg, #2a2010 0%, #1e1a0e 100%);
+    border-color: var(--gold-dim);
+    padding: 18px 28px;
+    min-width: 200px;
+  }
+
+  .node-card.root-card .node-name {
+    font-size: 17px;
+    color: var(--gold);
+  }
+
+  .node-card.highlighted {
+    border-color: var(--highlight);
+    background: rgba(245,200,66,0.08);
+    box-shadow: 0 0 0 2px rgba(245,200,66,0.3), 0 8px 24px var(--shadow);
+    animation: pulse 1.5s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 2px rgba(245,200,66,0.3), 0 8px 24px var(--shadow); }
+    50% { box-shadow: 0 0 0 4px rgba(245,200,66,0.2), 0 8px 24px var(--shadow); }
+  }
+
+  .node-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .node-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .node-toggle {
+    position: absolute;
+    bottom: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 22px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--gold-dim);
+    z-index: 2;
+    transition: all 0.2s;
+  }
+
+  .node-card:hover .node-toggle {
+    background: var(--gold-dim);
+    color: var(--bg);
+    border-color: var(--gold-dim);
+  }
+
+  /* Connectors */
+  .connector-down {
+    width: 2px;
+    height: 28px;
+    background: linear-gradient(180deg, var(--border), var(--gold-dim));
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .children-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    position: relative;
+    padding-top: 0;
+  }
+
+  .children-row::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 2px;
+    background: var(--gold-dim);
+    z-index: 0;
+  }
+
+  .child-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .child-col::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 20px;
+    background: var(--gold-dim);
+  }
+
+  /* For single child, no horizontal line */
+  .children-row.single-child::before {
+    display: none;
+  }
+
+  .collapsed-children {
+    display: none;
+  }
+
+  /* Generation label */
+  .generation-badge {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    background: rgba(201,168,76,0.08);
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-bottom: 4px;
+  }
+
+  /* Leaf nodes (no children expandable) */
+  .leaf-card {
+    background: var(--bg);
+    border-color: var(--border);
+    opacity: 0.85;
+  }
+
+  /* Modal/Detail Panel */
+  .detail-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+  }
+
+  .detail-overlay.open { display: flex; }
+
+  .detail-panel {
+    background: var(--surface);
+    border: 1px solid var(--gold-dim);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 420px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+    animation: slideUp 0.3s ease;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .detail-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+
+  .detail-close:hover { background: var(--border); color: var(--text); }
+
+  .detail-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--gold);
+    margin-bottom: 20px;
+    padding-right: 40px;
+  }
+
+  .detail-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+    align-items: flex-start;
+  }
+
+  .detail-label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    min-width: 90px;
+    padding-top: 2px;
+    font-weight: 500;
+  }
+
+  .detail-value {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .detail-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 16px 0;
+  }
+
+  .children-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .chip {
+    padding: 4px 12px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid var(--gold-dim);
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--gold);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .chip:hover { background: rgba(201,168,76,0.2); }
+
+  /* Print */
+  @media print {
+    body { background: white; color: black; }
+    .search-bar, .controls, .detail-overlay { display: none !important; }
+    .node-card { border-color: #999; background: white; box-shadow: none; }
+    .node-name { color: black; }
+    .connector-down, .children-row::before, .child-col::before { background: #999; }
+    header { background: none; }
+    header h1 { color: #333; }
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    .children-row { gap: 8px; }
+    .node-card { min-width: 110px; max-width: 140px; padding: 10px 12px; }
+    .node-name { font-size: 12px; }
+    .tree-container { padding: 16px 8px 60px; }
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-muted);
+    font-size: 15px;
+    display: none;
+  }
+</style>
+</head>
+<body>
+<div class="app-wrapper">
+  <header>
+    <div class="header-ornament">✦ Family Legacy ✦</div>
+    <h1>Sheikh Family Tree</h1>
+    <p>Rooted in ancestry · Growing through generations</p>
+  </header>
+
+  <div class="search-bar">
+    <div class="search-wrapper">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Search family members…" autocomplete="off">
+      <span class="search-count" id="searchCount" style="display:none"></span>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn" onclick="expandAll()">Expand All</button>
+    <button class="btn" onclick="collapseAll()">Collapse All</button>
+    <button class="btn" onclick="window.print()">Print Tree</button>
+  </div>
+
+  <div class="tree-container">
+    <div id="treeRoot" class="tree-root"></div>
+    <div class="no-results" id="noResults">No family members found.</div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetail(event)">
+  <div class="detail-panel" id="detailPanel">
+    <div class="detail-close" onclick="closeDetailPanel()">✕</div>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<script>
+// ====================== DATA ======================
+const familyData = {
+  id: "jarif_sheikh",
+  name: "Jarif Sheikh",
+  generation: 1,
+  notes: "Root ancestor of the Sheikh family.",
+  children: [
+    {
+      id: "afsar_uddin",
+      name: "Afsar Uddin",
+      generation: 2,
+      children: [
+        {
+          id: "jamal_sheikh",
+          name: "Jamal Sheikh",
+          generation: 3,
+          children: [
+            {
+              id: "mufazzol_hossain",
+              name: "Mufazzol Hossain",
+              generation: 4,
+              children: [
+                { id: "maruf_sheikh", name: "Maruf Sheikh", generation: 5, children: [] },
+                { id: "mashuk_hossain", name: "Mashuk Hossain", generation: 5, children: [] },
+                { id: "mahfuz", name: "Mahfuz", generation: 5, children: [] },
+                { id: "munni", name: "Munni", generation: 5, children: [] }
+              ]
+            },
+            {
+              id: "tofazzal_hossain",
+              name: "Tofazzal Hossain",
+              generation: 4,
+              children: [
+                { id: "tuya", name: "Tuya", generation: 5, children: [] },
+                { id: "tuba", name: "Tuba", generation: 5, children: [] },
+                { id: "muhammad", name: "Muhammad", generation: 5, children: [] }
+              ]
+            },
+            {
+              id: "shah_jahan",
+              name: "Shah Jahan",
+              generation: 4,
+              children: [
+                { id: "mezbah", name: "Mezbah", generation: 5, children: [] }
+              ]
+            },
+            {
+              id: "enayet_hossain",
+              name: "Enayet Hossain",
+              generation: 4,
+              children: [
+                { id: "zahid_hasan_zihan", name: "Zahid Hasan Zihan", generation: 5, children: [] }
+              ]
+            }
+          ]
+        },
+        {
+          id: "shohor_ali",
+          name: "Shohor Ali",
+          generation: 3,
+          children: [
+            {
+              id: "sharaf_uddin",
+              name: "Sharaf Uddin",
+              generation: 4,
+              children: [
+                { id: "eyyuhan", name: "Eyyuhan", generation: 5, children: [] },
+                { id: "walid", name: "Walid", generation: 5, children: [] }
+              ]
+            },
+            {
+              id: "bodrul_islam",
+              name: "Bodrul Islam (Badol)",
+              generation: 4,
+              children: [
+                { id: "fahim", name: "Fahim", generation: 5, children: [] },
+                { id: "fuhad", name: "Fuhad", generation: 5, children: [] }
+              ]
+            }
+          ]
+        },
+        {
+          id: "abdus_subohan",
+          name: "Abdus Subohan",
+          generation: 3,
+          children: [
+            {
+              id: "abdus_salam",
+              name: "Abdus Salam",
+              generation: 4,
+              children: [
+                { id: "sojeeb_sheikh", name: "Sojeeb Sheikh", generation: 5, children: [] },
+                { id: "abdullah_al_abrar", name: "Abdullah Al Abrar", generation: 5, children: [] }
+              ]
+            },
+            {
+              id: "abul_kalam_azad",
+              name: "Abul Kalam Azad",
+              generation: 4,
+              notes: "No son",
+              children: []
+            },
+            {
+              id: "abdul_aziz",
+              name: "Abdul Aziz",
+              generation: 4,
+              notes: "Unmarried",
+              children: []
+            }
+          ]
+        },
+        {
+          id: "lal_mia",
+          name: "Lal Mia",
+          generation: 3,
+          notes: "No son",
+          children: []
+        },
+        {
+          id: "abdul_goni",
+          name: "Abdul Goni",
+          generation: 3,
+          children: [
+            {
+              id: "zohir_rayhan",
+              name: "Zohir Rayhan",
+              generation: 4,
+              children: [
+                { id: "safiul_ahad", name: "Safiul Ahad", generation: 5, children: [] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "akkas_ali",
+      name: "Akkas Ali",
+      generation: 2,
+      children: [
+        {
+          id: "abdur_rahman",
+          name: "Abdur Rahman",
+          generation: 3,
+          children: [
+            {
+              id: "josmot_ali",
+              name: "Josmot Ali",
+              generation: 4,
+              children: [
+                {
+                  id: "kaiyum",
+                  name: "Kaiyum",
+                  generation: 5,
+                  children: [
+                    { id: "kawsar", name: "Kawsar", generation: 6, children: [] }
+                  ]
+                },
+                {
+                  id: "haiyul",
+                  name: "Haiyul",
+                  generation: 5,
+                  notes: "Forgotten",
+                  children: []
+                },
+                { id: "hannan", name: "Hannan", generation: 5, children: [] },
+                { id: "mannan", name: "Mannan", generation: 5, children: [] }
+              ]
+            },
+            {
+              id: "poshor_ali",
+              name: "Poshor Ali",
+              generation: 4,
+              children: [
+                {
+                  id: "anarul",
+                  name: "Anarul",
+                  generation: 5,
+                  children: [
+                    { id: "lamim", name: "Lamim", generation: 6, children: [] }
+                  ]
+                },
+                {
+                  id: "ashraful",
+                  name: "Ashraful",
+                  generation: 5,
+                  notes: "Early death",
+                  children: []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "mohor_ali",
+      name: "Mohor Ali",
+      generation: 2,
+      children: [
+        {
+          id: "nizam_uddin",
+          name: "Nizam Uddin",
+          generation: 3,
+          children: [
+            {
+              id: "shoheed",
+              name: "Shoheed",
+              generation: 4,
+              children: [
+                { id: "rafi", name: "Rafi", generation: 5, children: [] }
+              ]
+            },
+            {
+              id: "rofiq",
+              name: "Rofiq",
+              generation: 4,
+              children: [
+                { id: "ovi", name: "Ovi", generation: 5, children: [] },
+                { id: "amir_hamja", name: "Amir Hamja", generation: 5, children: [] }
+              ]
+            },
+            {
+              id: "faruk",
+              name: "Faruk",
+              generation: 4,
+              children: [
+                { id: "umayeer", name: "Umayeer", generation: 5, children: [] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "amir_hossain",
+      name: "Amir Hossain",
+      generation: 2,
+      children: [
+        { id: "abdul_hamid", name: "Abdul Hamid", generation: 3, children: [] },
+        { id: "suruj_ali", name: "Suruj Ali", generation: 3, children: [] },
+        { id: "liyakot_ali", name: "Liyakot Ali", generation: 3, children: [] }
+      ]
+    }
+  ]
+};
+
+// ====================== STATE ======================
+const collapsedNodes = new Set();
+const allNodes = {};
+let searchResults = [];
+let currentHighlight = null;
+let searchResultIndex = 0;
+
+// ====================== INIT ======================
+function buildNodeMap(node, parent = null) {
+  allNodes[node.id] = { ...node, parent };
+  if (node.children) node.children.forEach(c => buildNodeMap(c, node.id));
+}
+buildNodeMap(familyData);
+
+function getChildCount(node) {
+  let count = 0;
+  function countAll(n) {
+    count++;
+    if (n.children) n.children.forEach(countAll);
+  }
+  if (node.children) node.children.forEach(countAll);
+  return count;
+}
+
+function getGenerationLabel(gen) {
+  const labels = ['', '1st Gen', '2nd Gen', '3rd Gen', '4th Gen', '5th Gen', '6th Gen'];
+  return labels[gen] || `Gen ${gen}`;
+}
+
+// ====================== RENDER ======================
+function renderNode(node, isRoot = false) {
+  const hasChildren = node.children && node.children.length > 0;
+  const isCollapsed = collapsedNodes.has(node.id);
+  const childCount = getChildCount(node);
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'node-wrapper';
+  wrapper.dataset.id = node.id;
+
+  const card = document.createElement('div');
+  card.className = `node-card${isRoot ? ' root-card' : ''}${!hasChildren ? ' leaf-card' : ''}`;
+  card.dataset.id = node.id;
+
+  const nameEl = document.createElement('div');
+  nameEl.className = 'node-name';
+  nameEl.textContent = node.name;
+
+  const meta = document.createElement('div');
+  meta.className = 'node-meta';
+
+  if (isRoot) {
+    meta.textContent = 'Root Ancestor';
+  } else if (node.notes) {
+    meta.textContent = node.notes;
+  } else if (hasChildren) {
+    meta.textContent = `${node.children.length} child${node.children.length > 1 ? 'ren' : ''}`;
+  } else {
+    meta.textContent = getGenerationLabel(node.generation);
+  }
+
+  card.appendChild(nameEl);
+  card.appendChild(meta);
+
+  if (hasChildren) {
+    const toggle = document.createElement('div');
+    toggle.className = 'node-toggle';
+    toggle.textContent = isCollapsed ? '+' : '−';
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleNode(node.id);
+    });
+    card.appendChild(toggle);
+  }
+
+  card.addEventListener('click', (e) => {
+    // Only open detail when clicking the card body, not the toggle button
+    if (e.target.classList.contains('node-toggle')) return;
+    e.stopPropagation();
+    showDetail(node.id);
+  });
+
+  wrapper.appendChild(card);
+
+  if (hasChildren && !isCollapsed) {
+    const connDown = document.createElement('div');
+    connDown.className = 'connector-down';
+    wrapper.appendChild(connDown);
+
+    const childRow = document.createElement('div');
+    childRow.className = `children-row${node.children.length === 1 ? ' single-child' : ''}`;
+
+    // Calculate horizontal line width
+    if (node.children.length > 1) {
+      // will be set after render via JS
+    }
+
+    node.children.forEach(child => {
+      const colDiv = document.createElement('div');
+      colDiv.className = 'child-col';
+      colDiv.appendChild(renderNode(child));
+      childRow.appendChild(colDiv);
+    });
+
+    wrapper.appendChild(childRow);
+  } else if (hasChildren && isCollapsed) {
+    // Show collapsed placeholder
+    const connDown = document.createElement('div');
+    connDown.className = 'connector-down';
+    wrapper.appendChild(connDown);
+
+    const collapsedPill = document.createElement('div');
+    collapsedPill.style.cssText = `font-size:11px; color:var(--gold-dim); padding:4px 14px; background:var(--surface2); border:1px dashed var(--border); border-radius:20px; cursor:pointer; margin-top:2px;`;
+    collapsedPill.textContent = `${childCount} hidden`;
+    collapsedPill.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleNode(node.id);
+    });
+    wrapper.appendChild(collapsedPill);
+  }
+
+  return wrapper;
+}
+
+function render() {
+  const root = document.getElementById('treeRoot');
+  root.innerHTML = '';
+  root.appendChild(renderNode(familyData, true));
+  reapplyHighlights();
+  fixHorizontalLines();
+}
+
+function fixHorizontalLines() {
+  document.querySelectorAll('.children-row:not(.single-child)').forEach(row => {
+    const cols = row.querySelectorAll(':scope > .child-col');
+    if (cols.length < 2) return;
+    const firstRect = cols[0].getBoundingClientRect();
+    const lastRect = cols[cols.length - 1].getBoundingClientRect();
+    const rowRect = row.getBoundingClientRect();
+    const left = firstRect.left - rowRect.left + firstRect.width / 2;
+    const right = lastRect.left - rowRect.left + lastRect.width / 2;
+    row.style.setProperty('--line-left', left + 'px');
+    row.style.setProperty('--line-width', (right - left) + 'px');
+    row.style.cssText += `--hl: ${left}px; --hw: ${right - left}px;`;
+    row.style.position = 'relative';
+    // Create or update pseudo via a real element
+    let line = row.querySelector('.h-line');
+    if (!line) {
+      line = document.createElement('div');
+      line.className = 'h-line';
+      line.style.cssText = `position:absolute;top:0;height:2px;background:var(--gold-dim);z-index:0;pointer-events:none;`;
+      row.insertBefore(line, row.firstChild);
+    }
+    line.style.left = left + 'px';
+    line.style.width = (right - left) + 'px';
+  });
+}
+
+// ====================== TOGGLE ======================
+function toggleNode(id) {
+  if (collapsedNodes.has(id)) {
+    collapsedNodes.delete(id);
+  } else {
+    collapsedNodes.add(id);
+  }
+  render();
+}
+
+function expandAll() {
+  collapsedNodes.clear();
+  render();
+}
+
+function collapseAll() {
+  function addAll(node) {
+    if (node.children && node.children.length) {
+      collapsedNodes.add(node.id);
+      node.children.forEach(addAll);
+    }
+  }
+  familyData.children.forEach(addAll);
+  render();
+}
+
+// ====================== DETAIL ======================
+function showDetail(id) {
+  const node = allNodes[id];
+  if (!node) return;
+
+  const panel = document.getElementById('detailContent');
+  const parent = node.parent ? allNodes[node.parent] : null;
+  const directChildren = node.children || [];
+
+  let html = `<div class="detail-title">${node.name}</div>`;
+  html += `<div class="detail-row"><span class="detail-label">Generation</span><span class="detail-value">${getGenerationLabel(node.generation)}</span></div>`;
+  
+  if (parent) {
+    html += `<div class="detail-row"><span class="detail-label">Parent</span><span class="detail-value"><span class="chip" onclick="closeDetailPanel();showDetail('${parent.id}')">${parent.name}</span></span></div>`;
+  } else {
+    html += `<div class="detail-row"><span class="detail-label">Parent</span><span class="detail-value" style="color:var(--text-muted)">Root Ancestor</span></div>`;
+  }
+
+  if (node.notes) {
+    html += `<div class="detail-row"><span class="detail-label">Notes</span><span class="detail-value" style="color:var(--gold-dim)">${node.notes}</span></div>`;
+  }
+
+  html += `<div class="detail-divider"></div>`;
+
+  if (directChildren.length > 0) {
+    html += `<div class="detail-row"><span class="detail-label">Children</span><span class="detail-value"><div class="children-chips">`;
+    directChildren.forEach(c => {
+      html += `<span class="chip" onclick="closeDetailPanel();showDetail('${c.id}')">${c.name}</span>`;
+    });
+    html += `</div></span></div>`;
+  } else {
+    html += `<div class="detail-row"><span class="detail-label">Children</span><span class="detail-value" style="color:var(--text-muted)">No children recorded</span></div>`;
+  }
+
+  panel.innerHTML = html;
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+function closeDetailPanel() {
+  document.getElementById('detailOverlay').classList.remove('open');
+}
+
+function closeDetail(e) {
+  if (e.target === document.getElementById('detailOverlay')) closeDetailPanel();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetailPanel(); });
+
+// ====================== SEARCH ======================
+function searchTree(query) {
+  query = query.toLowerCase().trim();
+  searchResults = [];
+  if (!query) return;
+  Object.values(allNodes).forEach(node => {
+    if (node.name.toLowerCase().includes(query)) {
+      searchResults.push(node.id);
+    }
+  });
+}
+
+function reapplyHighlights() {
+  document.querySelectorAll('.node-card.highlighted').forEach(el => el.classList.remove('highlighted'));
+  searchResults.forEach(id => {
+    const el = document.querySelector(`.node-card[data-id="${id}"]`);
+    if (el) el.classList.add('highlighted');
+  });
+}
+
+function expandPathToNode(nodeId) {
+  // Expand all ancestors
+  let node = allNodes[nodeId];
+  while (node.parent) {
+    collapsedNodes.delete(node.parent);
+    node = allNodes[node.parent];
+  }
+}
+
+function scrollToHighlighted() {
+  if (searchResults.length === 0) return;
+  const id = searchResults[searchResultIndex % searchResults.length];
+  expandPathToNode(id);
+  render();
+  setTimeout(() => {
+    const el = document.querySelector(`.node-card[data-id="${id}"]`);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
+}
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  const q = this.value;
+  const countEl = document.getElementById('searchCount');
+  
+  if (!q.trim()) {
+    searchResults = [];
+    countEl.style.display = 'none';
+    document.querySelectorAll('.node-card.highlighted').forEach(el => el.classList.remove('highlighted'));
+    return;
+  }
+
+  searchTree(q);
+  searchResultIndex = 0;
+
+  if (searchResults.length > 0) {
+    countEl.textContent = `${searchResults.length} found`;
+    countEl.style.display = 'block';
+    scrollToHighlighted();
+  } else {
+    countEl.textContent = '0 found';
+    countEl.style.display = 'block';
+    document.querySelectorAll('.node-card.highlighted').forEach(el => el.classList.remove('highlighted'));
+  }
+});
+
+document.getElementById('searchInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && searchResults.length > 0) {
+    searchResultIndex = (searchResultIndex + 1) % searchResults.length;
+    scrollToHighlighted();
+  }
+});
+
+// ====================== INITIAL RENDER ======================
+render();
+window.addEventListener('resize', () => {
+  fixHorizontalLines();
+});
+</script>
+</body>
+</html>
