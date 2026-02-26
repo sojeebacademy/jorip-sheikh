@@ -1081,6 +1081,54 @@ html, body { height: 100%; font-family: 'Hind Siliguri', sans-serif; background:
   #overlay { display:none !important; }
 }
 
+/* ── SITE FOOTER ── */
+#site-footer {
+  flex-shrink: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 8px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; flex-wrap: wrap;
+  min-height: 36px;
+}
+body.light #site-footer {
+  background: #fff8ec;
+  border-top-color: var(--border);
+}
+.sf-left {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; color: var(--text-muted);
+}
+.sf-left svg { flex-shrink: 0; opacity: 0.6; }
+#sf-last-update {
+  font-size: 11px; font-weight: 600;
+  color: var(--gold);
+  font-family: 'Hind Siliguri', sans-serif;
+}
+#sf-last-update.none { color: var(--text-muted); font-weight: 400; font-style: italic; }
+.sf-right {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 10px; color: var(--text-muted);
+}
+.sf-member-count {
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--gold); font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 10px;
+}
+body.light .sf-member-count {
+  background: rgba(154,110,26,0.1);
+  border-color: rgba(154,110,26,0.3);
+  color: var(--gold);
+}
+.sf-version {
+  font-size: 9px; color: var(--text-muted);
+  padding: 2px 7px; border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  letter-spacing: 0.3px;
+}
+
 /* ── LAST UPDATE BADGE ── */
 .last-update-tag {
   flex-shrink: 0;
@@ -1321,6 +1369,21 @@ body.light .lm-header, body.light .lm-section-header { background:var(--surface2
     <ul id="treeRoot" class="tree-list"></ul>
   </div>
 
+  <!-- ── SITE FOOTER ── -->
+  <footer id="site-footer">
+    <div class="sf-left">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <span>সর্বশেষ আপডেট:</span>
+      <span id="sf-last-update" class="none">—</span>
+    </div>
+    <div class="sf-right">
+      <span>মোট সদস্য:</span>
+      <span class="sf-member-count" id="sf-member-count">০</span>
+      <span class="sf-version">v20</span>
+    </div>
+  </footer>
 
 </div>
 
@@ -2136,6 +2199,7 @@ function addMember() {
 
   render();
   renderEvents();
+  renderFooter();
   showToast(`✅ ${name} যোগ করা হয়েছে`, 'success');
 }
 
@@ -2221,6 +2285,7 @@ function saveEdit() {
 
   render();
   renderEvents();
+  renderFooter();
   filterEditList(document.getElementById('edit-search').value);
   showToast(`✅ ${newName} আপডেট হয়েছে`, 'success');
 }
@@ -2281,6 +2346,7 @@ function removeMember() {
 
   render();
   showToast(`🗑️ ${name} মুছে ফেলা হয়েছে`, 'success');
+  renderFooter();
 }
 
 // ── TOAST ──
@@ -2553,6 +2619,44 @@ function shortStamp(s) {
   } catch(e) { return s.slice(0,10); }
 }
 
+// ═══════ FOOTER RENDERER ═══════
+function renderFooter() {
+  const sfUpdate = document.getElementById('sf-last-update');
+  const sfCount  = document.getElementById('sf-member-count');
+  if (!sfUpdate || !sfCount) return;
+
+  // Count total members
+  const total = Object.keys(nodes).length;
+  sfCount.textContent = total;
+
+  // Find the most recent lastUpdated across all EXTRA entries
+  let latest = null;
+  Object.values(EXTRA).forEach(ex => {
+    if (ex.lastUpdated) {
+      if (!latest || ex.lastUpdated > latest) latest = ex.lastUpdated;
+    }
+  });
+
+  if (latest) {
+    // Format: "26 Feb 2025, 14:35"
+    const months = ['জানু','ফেব্রু','মার্চ','এপ্রি','মে','জুন','জুলা','আগ','সেপ্ট','অক্টো','নভে','ডিসে'];
+    try {
+      const [datePart, timePart] = latest.split(' ');
+      const [y, m, d] = datePart.split('-');
+      const label = `${parseInt(d)} ${months[parseInt(m)-1]} ${y}${timePart ? ', ' + timePart : ''}`;
+      sfUpdate.textContent = label;
+      sfUpdate.title = 'সম্পূর্ণ সময়: ' + latest;
+      sfUpdate.classList.remove('none');
+    } catch(e) {
+      sfUpdate.textContent = latest;
+      sfUpdate.classList.remove('none');
+    }
+  } else {
+    sfUpdate.textContent = 'কোনো আপডেট নেই';
+    sfUpdate.classList.add('none');
+  }
+}
+
 // ═══════ DATE PICKER HELPERS ═══════
 function openDatePicker(textId, nativeId) {
   const nat = document.getElementById(nativeId);
@@ -2762,6 +2866,7 @@ collapsed.delete(DATA.id);
 (DATA.children||[]).forEach(c => collapsed.delete(c.id));
 render();
 renderEvents();
+renderFooter();
 </script>
 </body>
 </html>
