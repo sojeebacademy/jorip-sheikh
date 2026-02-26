@@ -1206,12 +1206,54 @@ input[type="date"].cp-date-native {
   letter-spacing: 0.2px;
 }
 body.light .profile-update-line { color: var(--text-muted); }
+/* ── LEFT MENU DRAWER ── */
+#lm-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.5);
+  z-index:400; display:none; backdrop-filter:blur(4px);
+}
+#lm-overlay.open { display:block; }
+#lm-drawer {
+  position:fixed; top:0; left:0; bottom:0;
+  width:min(300px,90vw);
+  background:var(--surface); border-right:1px solid var(--border);
+  z-index:401; display:flex; flex-direction:column;
+  transform:translateX(-100%);
+  transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  overflow:hidden;
+}
+#lm-drawer.open { transform:translateX(0); }
+.lm-header {
+  padding:14px 16px 12px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  flex-shrink:0; background:var(--surface2);
+}
+.lm-title { font-size:15px; font-weight:700; color:var(--gold); }
+.lm-close {
+  width:28px; height:28px; border-radius:6px;
+  border:1px solid var(--border); background:transparent;
+  color:var(--text-muted); font-size:14px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.15s;
+}
+.lm-close:hover { border-color:var(--gold-dim); color:var(--text); }
+.lm-body { flex:1; overflow-y:auto; scrollbar-width:thin; scrollbar-color:var(--border) transparent; }
+.lm-section-header {
+  display:flex; align-items:center; gap:6px; padding:10px 14px;
+  border-bottom:1px solid var(--border); background:var(--surface2);
+  font-size:11px; font-weight:700; color:var(--gold); letter-spacing:0.5px;
+  cursor:pointer; user-select:none; flex-shrink:0;
+}
+body.light #lm-overlay { background:rgba(0,0,0,0.3); }
+body.light #lm-drawer { background:#fff; border-right-color:var(--border); }
+body.light .lm-header, body.light .lm-section-header { background:var(--surface2); }
+
 </style>
 </head>
 <body>
 <div id="app">
 
   <div id="header">
+    <button class="icon-btn" onclick="openLM()" title="মেনু" style="flex-shrink:0;">☰</button>
     <h1>🌿 শেখ পরিবার</h1>
     <div class="search-wrap">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -1272,24 +1314,27 @@ body.light .profile-update-line { color: var(--text-muted); }
     <ul id="treeRoot" class="tree-list"></ul>
   </div>
 
-  <!-- UPCOMING EVENTS HEADER -->
-  <div id="events-header" onclick="toggleEventsPanel()">
-    <div id="events-header-title">
-      📅 আসন্ন দিনসমূহ <span id="events-badge" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700;"></span>
-    </div>
-    <span id="events-toggle-icon" class="open">▲</span>
-  </div>
-  <!-- UPCOMING EVENTS PANEL -->
-  <div id="events-panel">
-    <div id="events-list"></div>
-  </div>
 
-  <!-- FOOTER -->
-  <footer id="site-footer">
-    <div class="footer-inner">
-      <div class="footer-top">
-        <span class="footer-label">এই ওয়েব সাইটির নির্মাতা ও সম্পাদক</span>
-      </div>
+</div>
+
+<!-- ── LEFT MENU DRAWER ── -->
+<div id="lm-overlay" onclick="closeLM()"></div>
+<div id="lm-drawer">
+  <div class="lm-header">
+    <div class="lm-title">🌿 মেনু</div>
+    <button class="lm-close" onclick="closeLM()">✕</button>
+  </div>
+  <div class="lm-body">
+    <div class="lm-section-header" onclick="toggleEventsPanel()">
+      📅 আসন্ন দিনসমূহ
+      <span id="events-badge" style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold);padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700;margin-left:4px;"></span>
+      <span id="events-toggle-icon" style="margin-left:auto;font-size:10px;color:var(--text-muted);">▼</span>
+    </div>
+    <div id="events-panel">
+      <div id="events-list"></div>
+    </div>
+    <div style="padding:14px 16px;border-top:1px solid var(--border);text-align:center;">
+      <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">এই ওয়েব সাইটির নির্মাতা ও সম্পাদক</div>
       <div class="footer-name">Sojeeb Sheikh</div>
       <a class="footer-fb" href="https://www.facebook.com/imyoursojeeb" target="_blank">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
@@ -1297,7 +1342,7 @@ body.light .profile-update-line { color: var(--text-muted); }
       </a>
       <div class="footer-divider"></div>
       <div class="footer-contact-title">সদস্য যোগ করতে, সম্পাদন করতে বা সরাতে যোগাযোগ করুন</div>
-      <div class="footer-links">
+      <div class="footer-links" style="justify-content:center;">
         <a class="footer-link messenger" href="https://m.me/imyoursojeeb" target="_blank">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.914 1.452 5.51 3.727 7.215V22l3.376-1.85c.9.249 1.852.383 2.897.383 5.523 0 10-4.145 10-9.243C22 6.145 17.523 2 12 2zm1.006 12.43l-2.547-2.718-4.973 2.718 5.467-5.802 2.609 2.718 4.911-2.718-5.467 5.802z"/></svg>
           Messenger
@@ -1306,14 +1351,13 @@ body.light .profile-update-line { color: var(--text-muted); }
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.122 1.532 5.853L0 24l6.335-1.502A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.001-1.366l-.358-.213-3.762.892.907-3.668-.234-.376A9.818 9.818 0 1 1 12 21.818z"/></svg>
           WhatsApp
         </a>
-        <a class="footer-link email" href="mailto:sheikhsojeeb@gmail.com">
+        <a class="footer-link email" href="/cdn-cgi/l/email-protection#27544f424e4c4f54484d42424567404a464e4b0944484a">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           Email
         </a>
       </div>
     </div>
-  </footer>
-
+  </div>
 </div>
 
 <!-- ── CONTROL PANEL ── -->
@@ -1523,7 +1567,7 @@ body.light .profile-update-line { color: var(--text-muted); }
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ═══════ DATA ═══════
 const DATA = {
   id:"jarif_sheikh", name:"জারিফ শেখ", gen:0,
@@ -2277,6 +2321,10 @@ function downloadHTML() {
   cpOverlay.classList.remove('open');
   cpDrawer.classList.remove('open');
   overlay.classList.remove('open');
+  const lmOv = document.getElementById('lm-overlay');
+  const lmDr = document.getElementById('lm-drawer');
+  if (lmOv) lmOv.classList.remove('open');
+  if (lmDr) lmDr.classList.remove('open');
 
   // ── outerHTML নাও ──
   let src = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
@@ -2656,11 +2704,21 @@ function renderEvents() {
   });
 }
 
+function openLM() {
+  document.getElementById('lm-overlay').classList.add('open');
+  document.getElementById('lm-drawer').classList.add('open');
+  renderEvents();
+}
+function closeLM() {
+  document.getElementById('lm-overlay').classList.remove('open');
+  document.getElementById('lm-drawer').classList.remove('open');
+}
 function toggleEventsPanel() {
   const panel = document.getElementById('events-panel');
   const icon  = document.getElementById('events-toggle-icon');
+  if (!panel) return;
   panel.classList.toggle('collapsed-panel');
-  icon.classList.toggle('open');
+  if (icon) icon.style.transform = panel.classList.contains('collapsed-panel') ? 'rotate(-90deg)' : '';
 }
 
 // ═══════ THEME TOGGLE ═══════
@@ -2690,8 +2748,11 @@ function toggleTheme() {
 
 // ═══════ FINAL INIT ═══════
 Object.keys(nodes).forEach(id => {
-  if (nodes[id].children && nodes[id].children.length) collapsed.add(id);
+  const nd = nodes[id];
+  if (nd.children && nd.children.length) collapsed.add(id);
 });
+collapsed.delete(DATA.id);
+(DATA.children||[]).forEach(c => collapsed.delete(c.id));
 render();
 renderEvents();
 </script>
